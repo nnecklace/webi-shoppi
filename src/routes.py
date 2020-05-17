@@ -11,6 +11,8 @@ def index():
 Product routes
 """ 
 
+# TODO: Check blueprint route groups
+
 @app.route("/products")
 def product_list():
     return render_template("products/main.html", products = Product.query.all())
