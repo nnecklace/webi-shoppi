@@ -1,7 +1,14 @@
 {% extends "index.html" %}
 
 {% block body %}
-  <pre>
-    Hello world!
-  </pre>
+  <h1>Product List</h1>
+  {% for product in products %}
+  <div>
+    <h2>{{product.name}}<h2>
+    <p>{{product.price}}</p>
+    <p>{{product.quantity}}</p>
+    <a href="{{url_for('product_edit', id = product.id)}}">Update</a>
+  </div>
+  {% endfor %}
+  <a href="{{url_for('product_form')}}">Create</a>
 {% endblock %}

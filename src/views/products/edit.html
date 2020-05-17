@@ -1,0 +1,19 @@
+{% extends "index.html" %}
+
+{% block body %}
+    <form action="{{url_for('product_update', id = product.id)}}" method="POST">
+        <div>
+            <label for="productName">Name:</label>
+            <input id="productName" name="name" value={{product.name}} type="text" />
+        </div>
+        <div>
+            <label for="productPrice">Price:</label>
+            <input id="productPrice" name="price" value={{product.price}} type="number">
+        </div>
+        <div>
+            <label for="productQuantity">Quantity:</label>
+            <input id="productQuantity" name="quantity" value={{product.quantity}} type="number">
+        </div>
+        <button type="submit">Update</button>
+    </form>
+{% endblock %}
