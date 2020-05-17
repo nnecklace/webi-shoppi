@@ -12,6 +12,7 @@ Product routes
 """ 
 
 # TODO: Check blueprint route groups
+# TODO: Add all inner route logic to controllers
 
 @app.route("/products")
 def product_list():
