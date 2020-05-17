@@ -13,3 +13,5 @@ Alustavia toimintoja:
 * Kommentin lisääminen
 
 Alustava [tietokantakaavio](https://github.com/nnecklace/webi-shoppi/blob/master/diagrams/diagram.md)
+
+[Käyttäjätarinat](https://github.com/nnecklace/webi-shoppi/blob/master/documentation/features.md)
