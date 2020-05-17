@@ -15,3 +15,5 @@ Alustavia toimintoja:
 [Tietokantakaavio](https://github.com/nnecklace/webi-shoppi/blob/master/diagrams/diagram.md)
 
 [Käyttäjätarinat](https://github.com/nnecklace/webi-shoppi/blob/master/documentation/features.md)
+
+[Heroku](https://webi-shoppi.herokuapp.com/)
