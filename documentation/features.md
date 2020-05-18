@@ -12,7 +12,7 @@ Tarina on tehty kun se on viety masteriin ja toimii Herokussa.
 - Käyttäjänä pystyn rekisteröitymään, jotta voin ostaa tuotteita 
 
 ### Tuotteiden selailu
-- Kuluttajana voin etsiä tuotteita hakusanoilla, jotta voin löytää nopeasti tuotteita
+- Kuluttajana voin etsiä tuotteita hakusanoilla, jotta voin löytää nopeasti tuotteita | Pitäisi varmaan splitata
 - Kuluttajana voin etsiä tuotteita tuotekategorian (tai kategorioiden) perusteella, jotta pystyn "suodattaa" pois tuotteita, joita en halua tuotevalikoimaan | Pitäisi varmaan splitata?
 
 ### Tuotteiden ostaminen
