@@ -5,4 +5,7 @@ from src.db import db
 from src.models import products
 from src import routes
 
-db.create_all()
+try: 
+    db.create_all()
+except:
+    pass
