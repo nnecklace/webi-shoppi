@@ -2,6 +2,9 @@
 
 Alla on kuvattu alustavat käyttäjätarinat. Käyttäjätarinoita lisätään enemmän projektin edetessä.
 
+## Definition of Done
+Tarina on tehty kun se on viety masteriin ja toimii Herokussa.
+
 ### Kirjautuminen Ja Rekisteröiminen
 - Käyttäjänä pystyn kirjautumaan sisään, jotta voin myydää tuotteita
     - Kirjautua voi joko käyttäjänimella tai sähköpostilla
