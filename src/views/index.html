@@ -3,13 +3,60 @@
   <head>
     <meta charset="utf-8">
     <title>Webi Shoppi</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   </head>
-  <a href="{{url_for('index')}}">Etusivu</a>
-  <a href="{{url_for('product_list')}}">Tuotevalikoima</a>
-
   <body>
+    <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">Webi-Shoppi</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{{url_for('index')}}">Etusivu</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{url_for('product_list')}}">Tuotteet</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Haku</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown dropleft">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Kirjaudu
+            </a>
+            <form class="dropdown-menu dropdown-menu-right px-4 py-3">
+              <div class="form-group">
+                <label for="loginUsername">Käyttäjätunnus</label>
+                <input type="text" id="loginUsername" class="form-control" placeholder="Username">
+              </div>
+              <div class="form-group">
+                <label for="loginPassword">Salasana</label>
+                <input type="password" class="form-control" id="loginPassword" placeholder="Password">
+              </div>
+              <div class="form-group">
+                <div class="form-check">
+                  <input type="checkbox" class="form-check-input" id="dropdownCheck2">
+                  <label class="form-check-label" for="dropdownCheck2">
+                    Muista minut
+                  </label>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary">Kirjaudu</button>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Luo uusi tunnus</a>
+              <a class="dropdown-item" href="#">Unohditko salasanasi?</a>
+            </form>
+          </li>
+        </ul>
+      </div>
+    </nav>
     {% block body %}
       <p>Webi-Shoppi on kevyt, yksinkertainen ja helppokäyttöinen nettikauppa</p>
     {% endblock %}
