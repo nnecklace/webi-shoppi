@@ -1,7 +1,6 @@
-from flask import render_template, request, redirect, url_for
-from src.models.products import Product
-from src.db import db
 from src import app
+from src.controllers.products import ProductController
+from flask import render_template
 
 @app.route("/")
 def index():
@@ -12,39 +11,23 @@ Product routes
 """ 
 
 # TODO: Check blueprint route groups
-# TODO: Add all inner route logic to controllers
 
 @app.route("/products")
 def product_list():
-    return render_template("products/main.html", products = Product.query.all())
+    return ProductController.index()
 
 @app.route("/products/form")
 def product_form():
-    return render_template("products/form.html")
+    return ProductController.form()
 
 @app.route("/products/<id>")
 def product_edit(id):
-    return render_template("products/edit.html", product = Product.query.get(id))
+    return ProductController.edit(id)
 
 @app.route("/products", methods=["POST"])
 def product_create():
-    product = Product(
-        request.form.get("name"), 
-        request.form.get("price"), 
-        request.form.get("quantity")
-    )
-    db.session().add(product)
-    db.session().commit()
-    return redirect(url_for("product_list"))
+    return ProductController.create()
 
 @app.route("/products/<id>", methods=["POST"])
 def product_update(id):
-    product = Product.query.get(id)
-
-    product.name = request.form.get("name"), 
-    product.price = request.form.get("price"), 
-    product.quantity = request.form.get("quantity")
-
-    db.session.commit()
-
-    return redirect(url_for("product_list"))
+    return ProductController.update(id)
