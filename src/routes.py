@@ -12,6 +12,10 @@ Authentication routes
 """
 
 @app.route("/register")
+def authentication_register_form():
+    return AuthenticationController.register_form()
+
+@app.route("/register", methods=["POST"])
 def authentication_register():
     return AuthenticationController.register()
 

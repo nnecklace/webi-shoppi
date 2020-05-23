@@ -2,32 +2,62 @@
 
 {% block body %}
 <div class="row">
-    <form class="p-4 col-md-8 card mx-auto mt-3">
+    <form class="p-4 col-md-8 card mx-auto mt-3" method="POST" action="{{url_for('authentication_register')}}">
         <h2>Luo tili</h2>
         <fieldset>
             <div class="form-group">
                 {{ form.username.label(for='registerUsername') }}
-                {{ form.username(class_='form-control', required=True, id='registerUsername', placeholder='Username') }}
+                {{ form.username(class_='form-control is-invalid' if form.username.errors | length > 0 else 'form-control', id='registerUsername', placeholder='Username') }}
+                {% for error in form.username.errors %}
+                    <div class="invalid-feedback">
+                        {{ error }}
+                    </div>
+                {% endfor %}
             </div>
             <div class="form-group">
                 {{ form.email.label(for='registerEmail') }}
-                {{ form.email(class_='form-control', required=True, id='registerEmail', placeholder='Email@email.com') }}
+                {{ form.email(class_='form-control is-invalid' if form.email.errors | length > 0 else 'form-control', id='registerEmail', placeholder='Email@email.com') }}
+                {% for error in form.email.errors %}
+                    <div class="invalid-feedback">
+                        {{ error }}
+                    </div>
+                {% endfor %}
             </div>
             <div class="form-group">
                 {{ form.first_name.label(for='registerFirstName') }}
-                {{ form.first_name(class_='form-control', required=True, id='registerFirstName', placeholder='Maija') }}
+                {{ form.first_name(class_='form-control is-invalid' if form.first_name.errors | length > 0 else 'form-control', id='registerFirstName', placeholder='Maija') }}
+                {% for error in form.first_name.errors %}
+                    <div class="invalid-feedback">
+                        {{ error }}
+                    </div>
+                {% endfor %}
             </div>
             <div class="form-group">
                 {{ form.last_name.label(for='registerLastName') }}
-                {{ form.last_name(class_='form-control', required=True, id='registerLastName', placeholder='Meikäläinen') }}
+                {{ form.last_name(class_='form-control is-invalid' if form.last_name.errors | length > 0 else 'form-control', id='registerLastName', placeholder='Meikäläinen') }}
+                {% for error in form.last_name.errors %}
+                    <div class="invalid-feedback">
+                        {{ error }}
+                    </div>
+                {% endfor %}
             </div>
             <div class="form-group">
                 {{ form.password.label(for='registerPassword') }}
-                {{ form.password(class_='form-control', required=True, id='registerPassword', placeholder='****') }}
+                {{ form.password(class_='form-control is-invalid' if form.password.errors | length > 0 else 'form-control', id='registerPassword', placeholder='****') }}
+                {% for error in form.password.errors %}
+                    <div class="invalid-feedback">
+                        {{ error }}
+                    </div>
+                {% endfor %}
             </div>
             <div class="form-group">
                 {{ form.password_again.label(for='registerPasswordAgain') }}
-                {{ form.password_again(class_='form-control', required=True, id='registerPasswordAgain', placeholder='****') }}
+                {{ form.password_again(class_='form-control is-invalid' if form.password.errors | length > 0 else 'form-control', id='registerPasswordAgain', placeholder='****') }}
+                {% for error in form.password_again.errors %}
+                    <div class="invalid-feedback">
+                        {{ error }}
+                    </div>
+                {% endfor %}
             </div>
             <div class="form-group">
                 <button class="btn btn-primary" type="submit">Lähetä</button>
