@@ -1,11 +1,11 @@
 from src import app
 from src.controllers.products import ProductController
 from src.controllers.authentication import AuthenticationController
-from flask import render_template
+from src.controllers.base import render
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render("index.html")
 
 """
 Authentication routes
@@ -18,6 +18,14 @@ def authentication_register_form():
 @app.route("/register", methods=["POST"])
 def authentication_register():
     return AuthenticationController.register()
+
+@app.route("/login", methods=["POST"])
+def authentication_login():
+    return AuthenticationController.login()
+
+@app.route("/logout")
+def authentication_logout():
+    return AuthenticationController.logout()
 
 """
 Product routes
