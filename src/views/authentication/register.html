@@ -1,37 +1,39 @@
 {% extends "index.html" %}
 
 {% block body %}
-<form class="p-4 card mt-3">
-    <h2>Luo tili</h2>
-    <fieldset>
-        <div class="form-group">
-            <label for="registerUsername">Käyttäjätunnus</label>
-            <input required type="text" name="username" class="form-control" id="registerUsername" placeholder="Username">
-        </div>
-        <div class="form-group">
-            <label for="registerEmail">Sähköposti</label>
-            <input required type="email" name="email" class="form-control" id="registerEmail" placeholder="Email">
-        </div>
-        <div class="form-group">
-            <label for="registerFirstName">Etunimi</label>
-            <input required type="text" name="first_name" class="form-control" id="registerFirstName" placeholder="Maija">
-        </div>
-        <div class="form-group">
-            <label for="registerLastName">Sukunimi</label>
-            <input required type="text" name="last_name" class="form-control" id="registerLastName" placeholder="Meikäläinen">
-        </div>
-        <div class="form-group">
-            <label for="registerPassword">Salasana</label>
-            <input required type="password" name="password" class="form-control" id="registerPassword" placeholder="****">
-        </div>
-        <div class="form-group">
-            <label for="registerPasswordAgain">Salasana uudelleen</label>
-            <input required type="password" name="password_again" class="form-control" id="registerPasswordAgain" placeholder="****">
-        </div>
-        <div class="form-group">
-            <button class="btn btn-primary" type="submit">Lähetä</button>
-            <button class="btn btn-secondary" type="reset">Tyhjennä</button>
-        </div>
-    </fieldset>
-</form>
+<div class="row">
+    <form class="p-4 col-md-8 card mx-auto mt-3">
+        <h2>Luo tili</h2>
+        <fieldset>
+            <div class="form-group">
+                {{ form.username.label(for='registerUsername') }}
+                {{ form.username(class_='form-control', required=True, id='registerUsername', placeholder='Username') }}
+            </div>
+            <div class="form-group">
+                {{ form.email.label(for='registerEmail') }}
+                {{ form.email(class_='form-control', required=True, id='registerEmail', placeholder='Email@email.com') }}
+            </div>
+            <div class="form-group">
+                {{ form.first_name.label(for='registerFirstName') }}
+                {{ form.first_name(class_='form-control', required=True, id='registerFirstName', placeholder='Maija') }}
+            </div>
+            <div class="form-group">
+                {{ form.last_name.label(for='registerLastName') }}
+                {{ form.last_name(class_='form-control', required=True, id='registerLastName', placeholder='Meikäläinen') }}
+            </div>
+            <div class="form-group">
+                {{ form.password.label(for='registerPassword') }}
+                {{ form.password(class_='form-control', required=True, id='registerPassword', placeholder='****') }}
+            </div>
+            <div class="form-group">
+                {{ form.password_again.label(for='registerPasswordAgain') }}
+                {{ form.password_again(class_='form-control', required=True, id='registerPasswordAgain', placeholder='****') }}
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit">Lähetä</button>
+                <button class="btn btn-secondary" type="reset">Tyhjennä</button>
+            </div>
+        </fieldset>
+    </form>
+</div>
 {% endblock %}
