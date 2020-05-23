@@ -16,3 +16,6 @@ def env_db_url():
         return "sqlite:///database.db"
     else:
         return "postgres://postgres@localhost:5432/webi_shoppi"
+
+def get_required_msg():
+    return "Kenttä on pakollinen"

@@ -1,19 +1,20 @@
-from flask import render_template, request, redirect, url_for
+from flask import request, redirect, url_for
 from src.db import db
+from src.controllers.base import render
 from src.models.products import Product
 
 class ProductController:
     @staticmethod
     def index():
-        return render_template("products/main.html", products = Product.query.all())
+        return render("products/main.html", products = Product.query.all())
 
     @staticmethod
     def form():
-        return render_template("products/form.html")
+        return render("products/form.html")
 
     @staticmethod
     def edit(id):
-        return render_template("products/edit.html", product = Product.query.get(id))
+        return render("products/edit.html", product = Product.query.get(id))
 
     @staticmethod
     def create():
