@@ -37,6 +37,13 @@ class ProductController:
         return redirect(url_for("product_list"))
 
     @staticmethod
+    def update_or_delete(username, id):
+        if request.form.get("_method") == "DELETE":
+            return ProductController.delete(username, id)
+
+        return ProductController.update(username, id)
+
+    @staticmethod
     def update(username, id):
         if not username == current_user.username:
             return redirect('index')
@@ -51,4 +58,17 @@ class ProductController:
         if not product.update():
             return redirect(url_for("product_list"))
 
-        return redirect(url_for("user_product_list", username = username, id = id))
+        return redirect(url_for("user_product_list", username = username))
+    
+    @staticmethod
+    def delete(username, id):
+        if not username == current_user.username:
+            return redirect('index')
+
+        product = Product.query.get(id)
+
+        if not product.delete():
+            # TODO: Redirect back with error message
+            return redirect(url_for("product_list"))
+
+        return redirect(url_for("user_product_list", username = username))

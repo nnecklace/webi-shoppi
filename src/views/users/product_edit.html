@@ -1,8 +1,8 @@
 {% extends "index.html" %}
 
 {% block body %}
-<div class="row">
-    <form class="p-4 col-md-8 card mx-auto mt-3" action="{{url_for('user_product_edit', username = current_user.username, id = product.id)}}" method="POST">
+<div class="row" style="position: relative;">
+    <form class="p-4 col-md-8 card mx-auto mt-3" style="position: relative;" action="{{url_for('user_product_edit', username = current_user.username, id = product.id)}}" method="POST">
         <h2>Päivitä {{ product.name }}</h2>
         <fieldset>
             <div class="form-group">
@@ -27,8 +27,12 @@
                 {{ product_form.quantity.label(for='productQuantity') }}
                 {{ product_form.quantity(class_='form-control', id='productQuantity', value=product.quantity) }}
             </div>
-            <button type="submit">Päivitä ilmoitus</button>
+            <button class="btn btn-primary" type="submit">Päivitä ilmoitus</button>
         </fieldset>
+    </form>
+    <form method="POST" style="position:absolute; top: 1.2rem; right: 0;" action="{{url_for('user_product_edit', username = current_user.username, id = product.id)}}">
+        <button class="btn btn-danger" type="submit">Poista ilmoitus</button>
+        <input type="hidden" name="_method" value="DELETE">
     </form>
 </div>
 {% endblock %}

@@ -43,3 +43,7 @@ class Product(db.Model):
 
     def update(self):
         return self._commit("product " + str(self.id) + " update :")
+    
+    def delete(self):
+        db.session().delete(self)
+        return self._commit("product " + str(self.id) + " delete :")

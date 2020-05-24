@@ -71,4 +71,4 @@ def user_product_view(username, id):
 @app.route("/users/<username>/products/<id>", methods=["POST"])
 @login_required
 def user_product_edit(username, id):
-    return ProductController.update(username, id)
+    return ProductController.update_or_delete(username, id)
