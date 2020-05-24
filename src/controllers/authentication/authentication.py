@@ -43,7 +43,7 @@ class AuthenticationController:
 
         login_user(user)
 
-        return render(login_form.view_data_field.data)
+        return redirect(url_for("user_private_profile", username = user.username))
 
     @staticmethod
     def logout():
