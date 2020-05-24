@@ -11,7 +11,7 @@ class Product(db.Model):
     modified_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
     name = db.Column(db.String(150), nullable=False)
     price = db.Column(db.Integer, nullable=False)
-    quantity = db.Column(db.Integer, default=1)
+    quantity = db.Column(db.Integer, default=1, nullable=False)
 
 
     id_field = None
