@@ -11,13 +11,6 @@ class ProductController:
         return render("products/main.html", products = Product.query.order_by(desc(Product.modified_at)).all())
 
     @staticmethod
-    def edit(username, id):
-        if not username == current_user.username:
-            return redirect('index')
-
-        return render("products/edit.html", product = Product.query.get(id), product_form = ProductForm())
-
-    @staticmethod
     def create(username):
         if not username == current_user.username:
             return redirect('index')
