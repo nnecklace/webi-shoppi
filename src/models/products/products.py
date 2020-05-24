@@ -1,4 +1,8 @@
 from src.db import db
+from sqlalchemy.dialects.postgresql import UUID
+from src.constants import env_sqlite
+from sqlalchemy import exc
+import sys
 
 class Product(db.Model):
     __tablename__ = "products"
@@ -9,7 +13,28 @@ class Product(db.Model):
     price = db.Column(db.Integer, nullable=False)
     quantity = db.Column(db.Integer, default=1)
 
-    def __init__(self, name, price, quantity):
+
+    id_field = None
+    if not env_sqlite():
+        id_field = UUID(as_uuid=True)
+    else:
+        id_field = db.Integer
+
+    user_id = db.Column(id_field, db.ForeignKey('users.id'), nullable=False)
+
+    def __init__(self, name, price, quantity, user_id):
         self.name = name
         self.price = price
         self.quantity = quantity
+        self.user_id = user_id
+
+    def save(self):
+        db.session().add(self)
+        try:
+            db.session().commit()
+        except exc.SQLAlchemyError as err:
+            print("[ERROR] product create : " + str(err), sys.stderr)
+            return False
+
+        print("[SUCCESS] product was created successfully")
+        return True

@@ -23,6 +23,8 @@ class User(db.Model):
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
     modified_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
     
+    products = db.relationship("Product", backref="users", lazy=True)
+
     def __init__(self, username, email, first_name, last_name, password):
         self.username = username
         self.email = email
@@ -56,6 +58,9 @@ class User(db.Model):
     @staticmethod
     def findByUsernamePassword(username, password):
         user = User.query.filter_by(username = username).first()
+
+        if not user:
+            return None
 
         if check_pwd(user.password, password):
             return user

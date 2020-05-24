@@ -17,6 +17,7 @@ login_manager = LoginManager()
 
 login_manager.init_app(app)
 login_manager.login_message = "This is login message" # remove?
+login_manager.login_view = "index"
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -24,7 +25,7 @@ def load_user(user_id):
 
 from src import encryption
 
-try: 
+try:
     db.create_all()
 except:
     pass

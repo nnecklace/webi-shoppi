@@ -25,9 +25,9 @@ class AuthenticationController:
         )
 
         if not user.save():
-            return render(form.view_data_field.data, session_error = "Käyttäjän luominen epäonnistui")
+            return render(form.view_data_field.data, session_error = "Käyttäjätilin luominen epäonnistui")
 
-        return render("index.html", session_success = "Käyttäjän luominen onnistui! Voit nyt kirjautua sisään tunnuksella " + user.username)
+        return render("index.html", session_success = "Käyttäjätilin luominen onnistui! Voit kirjautua sisään tunnuksella " + user.username)
 
     @staticmethod
     def login():
