@@ -56,7 +56,7 @@ class User(db.Model):
         return True
 
     @staticmethod
-    def findByUsernamePassword(username, password):
+    def find_by_username_password(username, password):
         user = User.query.filter_by(username = username).first()
 
         if not user:

@@ -36,7 +36,7 @@ class AuthenticationController:
         if not login_form.validate():
             return render(login_form.view_data_field.data, login_form = login_form)
 
-        user = User.findByUsernamePassword(login_form.username.data, login_form.password.data)
+        user = User.find_by_username_password(login_form.username.data, login_form.password.data)
 
         if not user:
             return render(login_form.view_data_field.data, session_error = "Kirjautuminen epäonnistui")
