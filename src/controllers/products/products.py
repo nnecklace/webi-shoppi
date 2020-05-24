@@ -13,6 +13,9 @@ class ProductController:
     @staticmethod
     def create(username):
         product_form = ProductForm(request.form)
+        if not product_form.validate():
+            return render("users/product_form.html", product_form = product_form, session_error = "Tuotteen julkaisu epäonnistui")
+
         # TODO: check sanitization
         product = Product(
             product_form.name.data,
@@ -38,12 +41,15 @@ class ProductController:
         product = Product.query.get(id)
         product_form = ProductForm(request.form)
 
+        if not product_form.validate():
+            return render("users/product_edit.html", product_form = product_form, product = product, session_error = "Tuotteen muokkaus epäonnistui")
+
         product.name = product_form.name.data
         product.price = product_form.price.data
         product.quantity = product_form.quantity.data
 
         if not product.update():
-            return redirect(url_for("product_list"))
+            return render("users/product_edit.html", product_form = product_form, product = product, session_error = "Tuotteen muokkaus epäonnistui")
 
         return redirect(url_for("user_product_list", username = username))
     

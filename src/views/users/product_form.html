@@ -25,7 +25,12 @@
             </div>
             <div class="form-group">
                 {{ product_form.quantity.label(for='productQuantity') }}
-                {{ product_form.quantity(class_='form-control', id='productQuantity', placeholder='1') }}
+                {{ product_form.quantity(class_='form-control is-invalid' if product_form.quantity.errors | length > 0 else 'form-control', id='productQuantity', placeholder='1') }}
+                {% for error in product_form.quantity.errors %}
+                    <div class="invalid-feedback">
+                        {{ error }}
+                    </div>
+                {% endfor %}
             </div>
             <button class="btn btn-primary" type="submit">Julkaise ilmoitus</button>
         </fieldset>
