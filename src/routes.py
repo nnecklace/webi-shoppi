@@ -3,6 +3,7 @@ from src.controllers.products import ProductController
 from src.controllers.authentication import AuthenticationController
 from src.controllers.users import UserController 
 from src.controllers.base import render
+from src.decorators import user_required
 from flask_login import login_required
 
 @app.route("/")
@@ -45,30 +46,36 @@ User & Product routes
 
 @app.route("/users/<username>")
 @login_required
+@user_required
 def user_private_profile(username):
     return UserController.index(username)
 
 @app.route("/users/<username>/products/form")
 @login_required
+@user_required
 def user_product_form(username):
     return UserController.product_form(username)
 
 @app.route("/users/<username>/products", methods=["POST"])
 @login_required
+@user_required
 def user_product_publish(username):
     return ProductController.create(username)
 
 @app.route("/users/<username>/products")
 @login_required
+@user_required
 def user_product_list(username):
     return UserController.product_list(username)
 
 @app.route("/users/<username>/products/<id>")
 @login_required
+@user_required
 def user_product_view(username, id):
     return UserController.product_view(username, id)
 
 @app.route("/users/<username>/products/<id>", methods=["POST"])
 @login_required
+@user_required
 def user_product_edit(username, id):
     return ProductController.update_or_delete(username, id)

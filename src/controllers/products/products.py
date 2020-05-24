@@ -12,9 +12,6 @@ class ProductController:
 
     @staticmethod
     def create(username):
-        if not username == current_user.username:
-            return redirect('index')
-
         product_form = ProductForm(request.form)
         # TODO: check sanitization
         product = Product(
@@ -38,9 +35,6 @@ class ProductController:
 
     @staticmethod
     def update(username, id):
-        if not username == current_user.username:
-            return redirect('index')
-
         product = Product.query.get(id)
         product_form = ProductForm(request.form)
 
@@ -55,9 +49,6 @@ class ProductController:
     
     @staticmethod
     def delete(username, id):
-        if not username == current_user.username:
-            return redirect('index')
-
         product = Product.query.get(id)
 
         if not product.delete():

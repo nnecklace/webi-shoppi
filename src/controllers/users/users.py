@@ -8,29 +8,18 @@ from src.models.users import User
 class UserController:
     @staticmethod
     def index(username):
-        if username == current_user.username:
-            return render("users/main.html")
-
-        return redirect(url_for("index"))
+        return render("users/main.html")
 
     @staticmethod
     def product_form(username):
-        # TODO: create decorator and make secure
-        if username == current_user.username:
-            return render("users/product_form.html", product_form = ProductForm())
+        return render("users/product_form.html", product_form = ProductForm())
 
-        return redirect(url_for("index"))
 
     @staticmethod
     def product_list(username):
-        if username == current_user.username:
-            return render("users/product_list.html", products = Product.query.join(User).filter_by(id = current_user.id).all())
-
-        return redirect(url_for("index"))
+        return render("users/product_list.html", products = Product.query.join(User).filter_by(id = current_user.id).all())
 
     @staticmethod
     def product_view(username, id):
-        if username == current_user.username:
-            return render("users/product_edit.html", product_form = ProductForm(), product = Product.query.get(id))
+        return render("users/product_edit.html", product_form = ProductForm(), product = Product.query.get(id))
         
-        return redirect(url_for("index"))
