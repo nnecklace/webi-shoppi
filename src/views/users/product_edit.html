@@ -1,0 +1,19 @@
+{% extends "index.html" %}
+
+{% block body %}
+<form action="{{url_for('user_product_edit', username = current_user.username, id = product.id)}}" method="POST">
+    <div class="form-group">
+        {{ product_form.name.label(for='productName') }}
+        {{ product_form.name(class_='form-control is-invalid' if product_form.name.errors | length > 0 else 'form-control', id='productName', value=product.name) }}
+    </div>
+    <div class="form-group">
+        {{ product_form.price.label(for='productPrice') }}
+        {{ product_form.price(class_='form-control is-invalid' if product_form.price.errors | length > 0 else 'form-control', id='productPrice', value=product.price) }}
+    </div>
+    <div class="form-group">
+        {{ product_form.quantity.label(for='productQuantity') }}
+        {{ product_form.quantity(class_='form-control is-invalid' if product_form.quantity.errors | length > 0 else 'form-control', id='productQuantity', value=product.quantity) }}
+    </div>
+    <button type="submit">Päivitä ilmoitus</button>
+</form>
+{% endblock %}

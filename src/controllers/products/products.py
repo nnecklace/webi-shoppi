@@ -1,5 +1,4 @@
 from flask import request, redirect, url_for
-from src.db import db
 from src.controllers.base import render
 from src.models.products import Product
 from flask_login import current_user
@@ -12,8 +11,11 @@ class ProductController:
         return render("products/main.html", products = Product.query.order_by(desc(Product.modified_at)).all())
 
     @staticmethod
-    def edit(id):
-        return render("products/edit.html", product = Product.query.get(id))
+    def edit(username, id):
+        if not username == current_user.username:
+            return redirect('index')
+
+        return render("products/edit.html", product = Product.query.get(id), product_form = ProductForm())
 
     @staticmethod
     def create(username):
@@ -35,15 +37,18 @@ class ProductController:
         return redirect(url_for("product_list"))
 
     @staticmethod
-    def update(id):
-        # API could be product.update(data)
+    def update(username, id):
+        if not username == current_user.username:
+            return redirect('index')
+
         product = Product.query.get(id)
+        product_form = ProductForm(request.form)
 
-        # TODO: check sanitization
-        product.name = request.form.get("name"),
-        product.price = request.form.get("price"),
-        product.quantity = request.form.get("quantity")
+        product.name = product_form.name.data
+        product.price = product_form.price.data
+        product.quantity = product_form.quantity.data
 
-        db.session().commit()
+        if not product.update():
+            return redirect(url_for("product_list"))
 
-        return redirect(url_for("product_list"))
+        return redirect(url_for("user_product_list", username = username, id = id))

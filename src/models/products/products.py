@@ -28,13 +28,18 @@ class Product(db.Model):
         self.quantity = quantity
         self.user_id = user_id
 
-    def save(self):
-        db.session().add(self)
+    def _commit(self, err_log):
         try:
             db.session().commit()
         except exc.SQLAlchemyError as err:
-            print("[ERROR] product create : " + str(err), sys.stderr)
+            print("[ERROR] " + err_log + " " + str(err), sys.stderr)
             return False
 
-        print("[SUCCESS] product was created successfully")
         return True
+
+    def save(self):
+        db.session().add(self)
+        return self._commit("product create:")
+
+    def update(self):
+        return self._commit("product " + str(self.id) + " update :")

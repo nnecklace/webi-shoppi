@@ -39,14 +39,6 @@ Product routes
 def product_list():
     return ProductController.index()
 
-@app.route("/products/<id>")
-def product_edit(id):
-    return ProductController.edit(id)
-
-@app.route("/products/<id>", methods=["POST"])
-def product_update(id):
-    return ProductController.update(id)
-
 """
 User & Product routes
 """
@@ -73,5 +65,10 @@ def user_product_list(username):
 
 @app.route("/users/<username>/products/<id>")
 @login_required
+def user_product_view(username, id):
+    return UserController.product_view(username, id)
+
+@app.route("/users/<username>/products/<id>", methods=["POST"])
+@login_required
 def user_product_edit(username, id):
-    return ProductController.edit(username, id)
+    return ProductController.update(username, id)
