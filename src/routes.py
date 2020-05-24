@@ -48,7 +48,7 @@ def product_update(id):
     return ProductController.update(id)
 
 """
-User routes
+User & Product routes
 """
 
 @app.route("/users/<username>")
@@ -65,3 +65,13 @@ def user_product_form(username):
 @login_required
 def user_product_publish(username):
     return ProductController.create(username)
+
+@app.route("/users/<username>/products")
+@login_required
+def user_product_list(username):
+    return UserController.product_list(username)
+
+@app.route("/users/<username>/products/<id>")
+@login_required
+def user_product_edit(username, id):
+    return ProductController.edit(username, id)
