@@ -1,6 +1,5 @@
 from flask import Flask
 from flask_login import LoginManager
-from flask_bcrypt import Bcrypt
 from os import urandom
 
 app = Flask(__name__, template_folder='views')
@@ -23,16 +22,7 @@ login_manager.login_message = "This is login message" # remove?
 def load_user(user_id):
     return users.User.query.get(user_id)
 
-"""
-Password encryption
-"""
-crypto = Bcrypt(app)
-
-def encrypt(str):
-    return crypto.generate_password_hash(str, 13)
-
-def check(candidate):
-    return crypto.check_password_hash(encrypt(candidate), candidate)
+from src import encryption
 
 try: 
     db.create_all()
