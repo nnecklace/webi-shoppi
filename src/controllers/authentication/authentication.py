@@ -3,8 +3,6 @@ from flask_login import login_user, logout_user
 from src.controllers.base import render
 from src.models.users import User
 from src.forms.authentication import RegisterForm, LoginForm
-from src.db import db
-
 
 class AuthenticationController:
     @staticmethod
@@ -18,7 +16,18 @@ class AuthenticationController:
         if not form.validate():
             return render("authentication/register.html", form = form)
 
-        return render("index.html")
+        user = User(
+            form.username.data,
+            form.email.data,
+            form.first_name.data,
+            form.last_name.data,
+            form.password.data
+        )
+
+        if not user.save():
+            return render(form.view_data_field.data, session_error = "Käyttäjän luominen epäonnistui")
+
+        return render("index.html", session_success = "Käyttäjän luominen onnistui! Voit nyt kirjautua sisään tunnuksella " + user.username)
 
     @staticmethod
     def login():
@@ -27,10 +36,10 @@ class AuthenticationController:
         if not login_form.validate():
             return render(login_form.view_data_field.data, login_form = login_form)
 
-        user = User.query.filter_by(username = login_form.username.data, password = login_form.password.data).first()
+        user = User.findByUsernamePassword(login_form.username.data, login_form.password.data)
 
         if not user:
-            return render(login_form.view_data_field.data, session_error = "Käyttäjä salasana yhdistelmää ei löytynyt")
+            return render(login_form.view_data_field.data, session_error = "Kirjautuminen epäonnistui")
 
         login_user(user)
 
