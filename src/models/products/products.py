@@ -24,7 +24,7 @@ class Product(db.Model):
 
     def __init__(self, name, price, quantity, user_id):
         self.name = name
-        self.price = price
+        self.price = price # TODO: convert to cents
         self.quantity = quantity
         self.user_id = user_id
 
