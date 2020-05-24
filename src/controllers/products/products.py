@@ -18,7 +18,7 @@ class ProductController:
 
     @staticmethod
     def create():
-        # TODO: sanitize!!!!
+        # TODO: check sanitization
         product = Product(
             request.form.get("name"),
             request.form.get("price"),
@@ -35,7 +35,7 @@ class ProductController:
         # API could be product.update(data)
         product = Product.query.get(id)
 
-        # TODO: sanitize!!!!
+        # TODO: check sanitization
         product.name = request.form.get("name"),
         product.price = request.form.get("price"),
         product.quantity = request.form.get("quantity")
