@@ -8,13 +8,15 @@ import sys
 class User(db.Model):
     __tablename__ = "users"
     id_field = None
+    default = None
 
     if not env_sqlite():
         id_field = UUID(as_uuid=True)
+        default = text("uuid_generate_v4()")
     else:
         id_field = db.Integer
     
-    id = db.Column(id_field, primary_key=True, server_default=text("uuid_generate_v4()"), unique=True, nullable=False)
+    id = db.Column(id_field, primary_key=True, server_default=default, unique=True, nullable=False)
     first_name = db.Column(db.String(150), nullable=False)
     last_name = db.Column(db.String(150), nullable=False)
     username = db.Column(db.String(150), nullable=False, unique=True)
