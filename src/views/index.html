@@ -25,7 +25,7 @@
       </div>
     {% endif %}
     <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
-      <a class="navbar-brand" href="#">Webi-Shoppi</a>
+      <a class="navbar-brand" href="{{url_for('index')}}">Webi-Shoppi</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -36,9 +36,6 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" href="{{url_for('product_list')}}">Tuotteet</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Haku</a>
           </li>
         </ul>
         <ul class="navbar-nav">
@@ -64,18 +61,9 @@
                   {{ login_form.password(class_='form-control', placeholder='****', id='loginPassword') }}
                 </div>
                 {{ login_form.view_data_field(value=_view_data) }}
-                <div class="form-group">
-                  <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="dropdownCheck2">
-                    <label class="form-check-label" for="dropdownCheck2">
-                      Muista minut
-                    </label>
-                  </div>
-                </div>
                 <button type="submit" class="btn btn-primary">Kirjaudu</button>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{{url_for('authentication_register_form')}}">Luo tunnus</a>
-                <a class="dropdown-item" href="#">Unohditko salasanasi?</a>
               </form>
             </li>
           {% endif %}
