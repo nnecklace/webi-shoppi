@@ -52,4 +52,4 @@ Herokussa on yksi testikäyttäjä:
 Käyttäjätunnus: `Test1`
 Salasana: `password@1`
 
-Voit luoda myös oman testikäyttäjän menemällä `/register` polkuun ja täyttämällä käyttäjätunnus lomakkeen. Salasana täytyy olla minimissään 8 merkkiä pitkä ja sen täytyy sisältää ainakin yhden numeron ja ainakin yksi seuraavista erikoismerkeistä: ` _, /, @, |, -, +`
+Voit luoda myös oman testikäyttäjän menemällä polkuun `/register` ja täyttämällä käyttäjätunnuslomakkeen. Salasana täytyy olla minimissään 8 merkkiä pitkä ja sen täytyy sisältää ainakin yhden numeron ja ainakin yksi seuraavista erikoismerkeistä: ` _, /, @, |, -, +`

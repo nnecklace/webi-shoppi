@@ -6,9 +6,9 @@ Alla on kuvattu alustavat käyttäjätarinat. Käyttäjätarinoita lisätään e
 Tarina on tehty kun se on viety masteriin ja toimii Herokussa.
 
 ### Kirjautuminen Ja Rekisteröiminen
-- Käyttäjänä pystyn kirjautumaan sisään, jotta voin myydää tuotteita
-    - Kirjautua voi joko käyttäjänimella tai sähköpostilla
-- Käyttäjänä pystyn rekisteröitymään, jotta voin myydä tuotteita
+- Käyttäjänä pystyn kirjautumaan sisään, jotta voin myydää tuotteita [DONE]
+    - Kirjautua voi joko käyttäjänimella [DONE]
+- Käyttäjänä pystyn rekisteröitymään, jotta voin myydä tuotteita [DONE]
 - Käyttäjänä pystyn rekisteröitymään, jotta voin ostaa tuotteita 
 
 ### Tuotteiden selailu
@@ -20,8 +20,8 @@ Tarina on tehty kun se on viety masteriin ja toimii Herokussa.
     - Tilauksessa varmistetaan, että käyttäjällä (kuluttaja) on tarpeeksi paljon rahaa | <- Oma tarina?
 
 ### Tuotteiden myyminen
-- Myyjänä pystyn laittamaan tuotteita myyntiin, jotta voin saada rahaa
-- Myyjänä pystyn ottamaan omia tuotteitani pois myynistä, jotta kuluttaja eivät pysty ostamaan tuotteitani
+- Myyjänä pystyn laittamaan tuotteita myyntiin, jotta voin saada rahaa [DONE]
+- Myyjänä pystyn ottamaan omia tuotteitani pois myynistä, jotta kuluttajat eivät pysty ostamaan tuotteitani [DONE]
 - Myyjänä pystyn antamaan yksittäiselle tuotteelle kategorian, jotta kuluttaja löytää kyseisen tuotteen oikeasta kategoriavalikoimasta
-- Myyjänä pystyn antamaan tuotteelle hinnan, jotta voin määritellä kuinka paljon kyseinen tuote maksaa
-- Myyjänä pystyn asettamaan tuotteiden määrä, jotta voin myydä tuotteesta useita kappaleita
+- Myyjänä pystyn antamaan tuotteelle hinnan, jotta voin määritellä kuinka paljon kyseinen tuote maksaa [DONE]
+- Myyjänä pystyn asettamaan tuotteiden määrä, jotta voin myydä tuotteesta useita kappaleita [DONE]
