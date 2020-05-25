@@ -8,7 +8,10 @@ from sqlalchemy import desc
 class ProductController:
     @staticmethod
     def index():
-        return render("products/main.html", products = Product.query.order_by(desc(Product.modified_at)).all())
+        return render("products/main.html", products = Product.query
+                                                              .order_by(desc(Product.modified_at))
+                                                              .filter(Product.quantity > 0)
+                                                              .all())
 
     @staticmethod
     def create(username):
