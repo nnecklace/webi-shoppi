@@ -34,7 +34,7 @@ Mikäli sinulla on docker asennettuna niin voit ajaa seuraavat kommenot.
 
 ```docker run -it -d -p 5432:5432 tsoha-db```
 
-Jos sinulla ei ole dockeria asennettuna niin voit luoda projektin juureen `database.db` tiedoston ja käyttää SQLite.
+Jos sinulla ei ole dockeria asennettuna niin voit luoda projektin kansioon `src` `database.db` tiedoston joka SQLite käyttää.
 
 ## Projektin ajaminen 
 
