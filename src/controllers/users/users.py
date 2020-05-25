@@ -17,7 +17,7 @@ class UserController:
 
     @staticmethod
     def product_list(username):
-        return render("users/product_list.html", products = Product.query.join(User).filter_by(id = current_user.id).all())
+        return render("users/product_list.html", products = Product.query.filter_by(user_id = current_user.id).all())
 
     @staticmethod
     def product_view(username, id):

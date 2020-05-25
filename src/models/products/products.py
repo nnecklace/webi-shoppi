@@ -13,7 +13,6 @@ class Product(db.Model):
     price = db.Column(db.Integer, nullable=False)
     quantity = db.Column(db.Integer, default=1, nullable=False)
 
-
     id_field = None
     if not env_sqlite():
         id_field = UUID(as_uuid=True)
@@ -21,6 +20,8 @@ class Product(db.Model):
         id_field = db.Integer
 
     user_id = db.Column(id_field, db.ForeignKey('users.id'), nullable=False)
+
+    user = db.relationship("User", back_populates="products", lazy="joined")
 
     def __init__(self, name, price, quantity, user_id):
         self.name = name

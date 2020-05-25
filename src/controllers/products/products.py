@@ -1,6 +1,7 @@
 from flask import request, redirect, url_for
 from src.controllers.base import render
 from src.models.products import Product
+from src.models.users import User
 from flask_login import current_user
 from src.forms.users import ProductForm
 from sqlalchemy import desc
@@ -9,6 +10,7 @@ class ProductController:
     @staticmethod
     def index():
         return render("products/main.html", products = Product.query
+                                                              .join(User)
                                                               .order_by(desc(Product.modified_at))
                                                               .filter(Product.quantity > 0)
                                                               .all())

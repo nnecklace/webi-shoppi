@@ -23,7 +23,7 @@ class User(db.Model):
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
     modified_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
     
-    products = db.relationship("Product", backref="users", lazy=True)
+    products = db.relationship("Product", back_populates="user")
 
     def __init__(self, username, email, first_name, last_name, password):
         self.username = username
