@@ -1,12 +1,22 @@
 {% extends "index.html" %}
 
 {% block body %}
-    <h1>Product List</h1>
-    {% for product in products %}
-    <div>
-        <h2>{{product.name}}<h2>
-        <p>{{product.price}}</p>
-        <p>{{product.quantity}}</p>
+<h1 class="mt-2">Tuotteet</h1>
+<div class="row pt-2">
+    <div class="card-deck">
+        {% for product in products %}
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{product.name}}<h5>
+                <p class="card-text"><small class="text-muted">Hinta: {{product.price}} €</small></p>
+                <p class="card-text"><small class="text-muted">Kpl jäljellä: {{product.quantity}}</small></p>
+                <a class="btn btn-primary disabled" href="#">Näytä</a>
+            </div>
+            <div class="card-footer">
+                <small class="text-muted">Julkaistu: {{product.created_at.strftime('%d %m %Y')}}</small>
+            </div>
+        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
+</div>
 {% endblock %}
