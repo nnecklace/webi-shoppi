@@ -1,8 +1,8 @@
 # webi-shoppi
 
 Webi-Shopin tarkoitus on olla pieni ja kevyt verkkokauppapalvelu. Käyttjillä on mahdollisuus lisätä, ostaa, poistaa, varata tuotteita.
-Käyttjillä on kaksi implisiittisiä rooleja, kuluttaja ja myyjä. Tuotteita voi olla useita. Myyjänä pystyt laittamaan tuotteita myytäväksi, asettaa hintaa tuotteelle. Tuotteella on yksi myyjä, useita kategorioita sekä useita kuluttajien jättämät kommentit.
-Kuluttajana pystyt ostamaan tuotteita, mikäli tililläsi on rahaa. Kuluttajana pystyt arvostelemaan tuotteita jättämällä kommentin tuotteelle. 
+Käyttjillä on kaksi implisiittisiä rooleja, kuluttaja ja myyjä. Tuotteita voi olla useita. Myyjänä pystyt julkaisemaan tuotteita myytäväksi, asettaa hintaa omille tuotteille. Tuotteilla on yksi myyjä, useita kategorioita sekä useita kuluttajien jättämät kommentit.
+Kuluttajana pystyt ostamaan tuotteita, mikäli tililläsi on rahaa tai luottokortilla. Kuluttajana pystyt arvostelemaan tuotteita jättämällä kommentteja. 
 
 [Tietokantakaavio](https://github.com/nnecklace/webi-shoppi/blob/master/diagrams/diagram.md)
 
@@ -12,7 +12,7 @@ Kuluttajana pystyt ostamaan tuotteita, mikäli tililläsi on rahaa. Kuluttajana 
 
 ## Projektin asentaminen
 
-Varmista, että sinulla on vähintään python 3.7 asennettuna.
+Varmista, että sinulla on ainakin python 3.7 asennettuna.
 
 Luo virtuaaliympäristö
 
@@ -28,15 +28,15 @@ Lataa projektin riippuvuudet
 
 ## Tietokanta
 
-Mikäli sinulla on docker asennettuna niin voit suorittaa seuraavat kommenot.
+Mikäli sinulla on docker asennettuna niin voit ajaa seuraavat kommenot.
 
-```docker build -t <joku-nimi> .```
+```docker build -t tsoha-db .```
 
-```docker run -it -d -p 5432:5432 <joku-nimi>```
+```docker run -it -d -p 5432:5432 tsoha-db```
 
 Jos sinulla ei ole dockeria asennettuna niin voit luoda projektin juureen `database.db` tiedoston ja käyttää SQLite.
 
-## Projektin suorittaminen
+## Projektin ajaminen 
 
 Dockerilla:
 
@@ -45,3 +45,11 @@ Dockerilla:
 SQLitella:
 
 ```ENV=SQLITE python run.py```
+
+## Testaaminen
+
+Herokussa on yksi testikäyttäjä: 
+Käyttäjätunnus: `Test1`
+Salasana: `password@1`
+
+Voit luoda myös oman testikäyttäjän menemällä `/register` polkuun ja täyttämällä käyttäjätunnus lomakkeen. Salasana täytyy olla minimissään 8 merkkiä pitkä ja sen täytyy sisältää ainakin yhden numeron ja ainakin yksi seuraavista erikoismerkeistä: ` _, /, @, |, -, +`
