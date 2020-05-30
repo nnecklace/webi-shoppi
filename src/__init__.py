@@ -7,7 +7,7 @@ app = Flask(__name__, template_folder='views')
 app.config["SECRET_KEY"] = urandom(32)
 
 from src.db import db
-from src.models import products, users
+from src.models import categories, users, products, categories_products
 from src import routes
 
 """

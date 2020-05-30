@@ -1,7 +1,7 @@
 from src.db import db
 from sqlalchemy.dialects.postgresql import UUID
 from src.constants import env_sqlite
-from sqlalchemy import exc
+from sqlalchemy import exc, text
 import sys
 
 class Product(db.Model):
@@ -11,7 +11,7 @@ class Product(db.Model):
     modified_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
     name = db.Column(db.String(150), nullable=False)
     price = db.Column(db.Integer, nullable=False)
-    quantity = db.Column(db.Integer, default=1, nullable=False)
+    quantity = db.Column(db.Integer, default=0)
 
     id_field = None
     if not env_sqlite():
@@ -22,6 +22,7 @@ class Product(db.Model):
     user_id = db.Column(id_field, db.ForeignKey('users.id'), nullable=False)
 
     user = db.relationship("User", back_populates="products", lazy="joined")
+    categories = db.relationship("Category", secondary="categories_products", back_populates="products", lazy="joined")
 
     def __init__(self, name, price, quantity, user_id):
         self.name = name
@@ -42,7 +43,10 @@ class Product(db.Model):
         db.session().add(self)
         return self._commit("product create:")
 
-    def update(self):
+    def update(self, product):
+        self.name = product.name.data
+        self.price = product.price.data
+        self.quantity = product.quantity.data
         return self._commit("product " + str(self.id) + " update :")
     
     def delete(self):

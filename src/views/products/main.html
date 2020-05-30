@@ -2,23 +2,30 @@
 
 {% block body %}
 <h1 class="mt-2">Tuotteet</h1>
-<div class="row pt-2">
-    <div class="card-deck">
-        {% for product in products %}
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">{{product.name}}<h5>
-                <p class="card-text"><small class="text-muted">Hinta: {{product.price}} €</small></p>
-                <p class="card-text"><small class="text-muted">Kpl jäljellä: {{product.quantity}}</small></p>
-                <a class="btn btn-primary disabled" href="#">Näytä</a>
-            </div>
-            <div class="card-footer">
-                <small class="text-muted">Julkaistu: {{product.created_at.strftime('%d %m %Y')}}</small>
-                <br />
-                <small class="text-muted">Myyjä: {{product.user.username}}</small>
+<div class="row pt-2 row-cols-3">
+    {% for product in products %}
+        <div class="col-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">{{product.name}}<h5>
+                    <p class="card-text"><small class="text-muted">Hinta: {{product.price}} €</small></p>
+                    <p class="card-text"><small class="text-muted">Kpl jäljellä: {{product.quantity}}</small></p>
+                    <a class="btn btn-primary disabled" href="#">Näytä</a>
+                    <div>
+                        {% for category in product.categories %}
+                            {% if not category.name == None %}
+                                <span style="font-size: 0.75rem" class="badge badge-pill badge-primary">{{ category.name }}</span>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <small class="text-muted">Julkaistu: {{product.created_at.strftime('%d/%m/%Y')}}</small>
+                    <br />
+                    <small class="text-muted">Myyjä: {{product.user.username}}</small>
+                </div>
             </div>
         </div>
-        {% endfor %}
-    </div>
+    {% endfor %}
 </div>
 {% endblock %}
