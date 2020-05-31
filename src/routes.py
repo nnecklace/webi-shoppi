@@ -1,7 +1,8 @@
 from src import app
 from src.controllers.products import ProductController
 from src.controllers.authentication import AuthenticationController
-from src.controllers.users import UserController 
+from src.controllers.search import SearchController
+from src.controllers.users import UserController
 from src.controllers.base import render
 from src.decorators import user_required
 from flask_login import login_required
@@ -39,6 +40,13 @@ Product routes
 @app.route("/products")
 def product_list():
     return ProductController.index()
+
+"""
+Search routes
+"""
+@app.route("/search")
+def search_list():
+    return SearchController.get()
 
 """
 User & Product routes
