@@ -1,29 +1,22 @@
 from src.db import db
+from src.models.base import Base
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy import text, exc
 from src.constants import env_sqlite
 from src.encryption import encrypt, check_pwd
 import sys
 
-class User(db.Model):
+class User(Base):
     __tablename__ = "users"
-    id_field = None
-    default = None
 
     if not env_sqlite():
-        id_field = UUID(as_uuid=True)
-        default = text("uuid_generate_v4()")
-    else:
-        id_field = db.Integer
+        id = db.Column(UUID(as_uuid=True), primary_key=True, server_default=text("uuid_generate_v4()"), unique=True, nullable=False)
     
-    id = db.Column(id_field, primary_key=True, server_default=default, unique=True, nullable=False)
     first_name = db.Column(db.String(150), nullable=False)
     last_name = db.Column(db.String(150), nullable=False)
     username = db.Column(db.String(150), nullable=False, unique=True)
     password = db.Column(db.String(150), nullable=False)
-    balance = db.Column(db.Integer) # money will be stored as cents
-    created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
-    modified_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
+    balance = db.Column(db.Integer, default=0) # money will be stored as cents
     
     products = db.relationship("Product", back_populates="user")
 

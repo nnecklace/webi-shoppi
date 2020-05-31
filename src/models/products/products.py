@@ -1,14 +1,12 @@
 from src.db import db
+from src.models.base import Base
 from sqlalchemy.dialects.postgresql import UUID
 from src.constants import env_sqlite
 from sqlalchemy import exc, text
 import sys
 
-class Product(db.Model):
+class Product(Base):
     __tablename__ = "products"
-    id = db.Column(db.Integer, primary_key=True)
-    created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
-    modified_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
     name = db.Column(db.String(150), nullable=False)
     price = db.Column(db.Integer, nullable=False)
     quantity = db.Column(db.Integer, default=0)
@@ -26,7 +24,7 @@ class Product(db.Model):
 
     def __init__(self, name, price, quantity, user_id):
         self.name = name
-        self.price = price # TODO: convert to cents
+        self.price = price
         self.quantity = quantity
         self.user_id = user_id
 
