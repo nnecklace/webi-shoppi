@@ -69,55 +69,71 @@ class Product(Base):
                " ON users.id = products.user_id"
                " WHERE products.quantity > 0")
 
+        date_format_start = "%Y-%m-%d 00:00:00"
+        date_format_end  = "%Y-%m-%d 23:59:59"
+
+        def add_parameter(key, value):
+            nonlocal stmt
+            if key == "name":
+                stmt += " AND products.name LIKE :name"
+            elif key == "price":
+                stmt += " AND price <= :price"
+            elif key == "seller":
+                stmt += " AND users.username LIKE :seller"
+            elif key == "published_start":
+                stmt +=  " AND products.created_at >= :published_start"
+            elif key == "published_end":
+                stmt +=  " AND products.created_at <= :published_end"
+            params_dict[key] = value
+
         if name:
-            stmt += " AND products.name LIKE :name"
-            params_dict["name"] = "%"+name+"%"
+            add_parameter("name", "%"+name+"%")
 
         if price:
-            stmt += " AND price <= :price"
-            params_dict["price"] = price
+            add_parameter("price", price)
 
-        if published_start and published_end:
-            stmt += " AND products.created_at BETWEEN :published_start AND :published_end"
-            params_dict["published_start"] = published_start.strftime("%Y-%m-%d 00:00:00")
-            params_dict["published_end"] = published_end.strftime("%Y-%m-%d 23:59:59")
-        elif published_start:
-            stmt +=  " AND products.created_at >= :published_start"
-            params_dict["published_start"] = published_start.strftime("%Y-%m-%d 00:00:00")
-        elif published_end:
-            stmt +=  " AND products.created_at <= :published_end"
-            params_dict["published_end"] = published_end.strftime("%Y-%m-%d 23:59:59")
+        # Could also use SQL BETWEEN clause, but doing it this way makes to code easier to read imo
+        if published_start:
+            add_parameter("published_start", published_start.strftime(date_format_start))
+
+        if published_end:
+            add_parameter("published_end", published_end.strftime(date_format_end))
 
         if seller:
-            stmt += " AND users.username LIKE :seller"
-            params_dict["seller"] = "%"+seller+"%"
+            add_parameter("seller", "%"+seller+"%")
 
-        if -1 in categories:
-            stmt += " GROUP BY products.id, users.username"
-            stmt += " HAVING COUNT(categories_products.product_id) = 0"
-        elif len(categories) > 0:
+        if not -1 in categories and len(categories) > 0:
+            # build subquery for getting categories
             subquery = " AND categories.id = ANY(SELECT categories.id FROM categories WHERE categories.id = :cat_0"
-            params_dict["cat_0"] = categories[0]
+            add_parameter("cat_0", categories[0])
             for indx in range(1, len(categories)):
                 subquery += " OR categories.id = :cat_"+str(indx)
-                params_dict["cat_"+str(indx)] = categories[indx]
+                add_parameter("cat_"+str(indx), categories[indx])
             subquery += ")"
             stmt += subquery
-            stmt += " GROUP BY products.id, users.username"
 
+        stmt += " GROUP BY products.id, users.username"
+
+        # if uncategorized was selected
+        if -1 in categories:
+            stmt += " HAVING COUNT(categories_products.product_id) = 0"
+        
         stmt += " ORDER BY products.created_at DESC"
 
         stmt = text(stmt).bindparams(**params_dict)
 
         rows = db.engine.execute(stmt)
         response = []
+        lookup = []
 
         for row in rows:
-            response.append({"id": row[0],
-                             "name": row[1],
-                             "created_at": row[2],
-                             "price": row[3],
-                             "quantity": row[4],
-                             "user": {"username": row[5]}})
+            if not row[0] in lookup:
+                response.append({"id": row[0],
+                                "name": row[1],
+                                "created_at": row[2],
+                                "price": row[3],
+                                "quantity": row[4],
+                                "user": {"username": row[5]}})
+                lookup.append(row[0])
 
         return response
