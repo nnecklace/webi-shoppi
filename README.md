@@ -36,6 +36,10 @@ Mikäli sinulla on docker asennettuna niin voit ajaa seuraavat kommenot.
 
 Jos sinulla ei ole dockeria asennettuna niin voit luoda projektin kansioon `src` `database.db` tiedoston joka SQLite käyttää.
 
+Kun tietokanta on luoto, voit lisätä verkokaupalle tuotekategoriat
+
+```insert into categories (name) values ('Koti'), ('Elektroniikka'), ('Elintarvike'), ('Kirja'), ('Auto'), ('Peli'), ('Urheilu'), ('Hyvinvointi'), ('Hygieni'), ('Viihde');```
+
 ## Projektin ajaminen 
 
 Dockerilla:
