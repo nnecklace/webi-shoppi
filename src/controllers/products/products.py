@@ -11,25 +11,19 @@ class ProductController:
         return render("products/main.html", products = Product.query.order_by(desc(Product.created_at)).filter(Product.quantity > 0).all())
 
     @staticmethod
-    def __populate_and_get_categories(product_form, request):
-        categories_request = list(zip(request.form.getlist("category_id"), request.form.getlist("category_value")))
-        categories_list = []
-
-        for cat in categories_request:
-            product_form.categories.choices.append(cat)
-            categories_list.append(Category(id=int(cat[0]), name=cat[1]))
-
-        return categories_list
-
-    @staticmethod
-    def create(username):
+    def create():
         product_form = ProductForm(request.form)
         categories_products = CategoryProduct()
 
-        categories_list = ProductController.__populate_and_get_categories(product_form, request)
+        view_data = ProductController.__get_view_data()
+        product_form = view_data["product_form"]
+        categories_list = view_data["categories"]
 
         if not product_form.validate():
-            return render("users/product_form.html", product_form = product_form, categories = categories_list, session_error = "Tuotteen julkaisu epäonnistui")
+            return render("users/product_form.html",
+                          product_form = product_form,
+                          categories = categories_list,
+                          session_error = "Tuotteen julkaisu epäonnistui")
 
         # TODO: check sanitization
         product = Product(
@@ -40,10 +34,16 @@ class ProductController:
         )
 
         if not product.save():
-            return render("users/product_form.html", product_form = product_form, categories = categories_list, session_error = "Tuotteen julkaisu epäonnistui")
+            return render("users/product_form.html",
+                          product_form = product_form,
+                          categories = categories_list,
+                          session_error = "Tuotteen julkaisu epäonnistui")
 
         if not categories_products.add_product_categories(product.id, product_form.categories.data):
-            return render("users/product_form.html", product_form = product_form, categories = categories_list, session_error = "Tuote julkaistu. Kategorioiden lisäyksessä tapahtui virhe")
+            return render("users/product_form.html",
+                          product_form = product_form,
+                          categories = categories_list,
+                          session_error = "Tuote julkaistu. Kategorioiden lisäyksessä tapahtui virhe")
 
         return redirect(url_for("product_list"))
 
@@ -57,19 +57,31 @@ class ProductController:
     @staticmethod
     def update(username, id):
         product = Product.query.get(id)
-        product_form = ProductForm(request.form)
+        view_data = ProductController.__get_view_data()
         categories_products = CategoryProduct()
 
-        categories_list = ProductController.__populate_and_get_categories(product_form, request)
+        product_form = view_data["product_form"]
+        categories = view_data["categories"]
 
         if not product_form.validate():
-            return render("users/product_edit.html", categories = categories_list, product_form = product_form, product = product, session_error = "Tuotteen muokkaus epäonnistui")
+            return render("users/product_edit.html",
+                          categories = categories,
+                          product_form = product_form,
+                          product = product,
+                          session_error = "Tuotteen muokkaus epäonnistui")
 
         if not product.update(product_form):
-            return render("users/product_edit.html", categories = categories_list, product_form = product_form, product = product, session_error = "Tuotteen muokkaus epäonnistui")
+            return render("users/product_edit.html",
+                          categories = categories,
+                          product_form = product_form,
+                          product = product,
+                          session_error = "Tuotteen muokkaus epäonnistui")
 
         if not categories_products.add_product_categories(product.id, product_form.categories.data):
-            return render("users/product_form.html", categories = categories_list, product_form = product_form, session_error = "Tuote muokkaus onnistui. Kategorioiden lisäyksessä tapahtui virhe")
+            return render("users/product_form.html",
+                          categories = categories,
+                          product_form = product_form,
+                          session_error = "Tuote muokkaus onnistui. Kategorioiden lisäyksessä tapahtui virhe")
 
         return redirect(url_for("user_product_list", username = username))
     
@@ -82,3 +94,35 @@ class ProductController:
             return redirect(url_for("product_list"))
 
         return redirect(url_for("user_product_list", username = username))
+
+    @staticmethod
+    def current_user_list():
+        return render("users/product_list.html", products = Product.query.filter_by(user_id = current_user.id).all())
+
+    @staticmethod
+    def edit(product_id):
+        view_data = ProductController.__get_view_data()
+        product = Product.query.get(product_id)
+        selected_categories = list(map(lambda cat: str(cat.id), product.categories))
+
+        return render("users/product_edit.html",
+                       product_form = view_data["product_form"],
+                       product = product,
+                       selected_categories = selected_categories,
+                       categories = view_data["categories"])
+
+    @staticmethod
+    def form():
+        view_data = ProductController.__get_view_data()
+        return render("users/product_form.html", product_form = view_data["product_form"], categories = view_data["categories"])
+
+    @staticmethod
+    def __get_view_data():
+        product_form = ProductForm(request.form)
+        categories = Category.query.all()
+
+        if not product_form.categories.choices:
+            # flaskwtforms requires that multi checkbox widget has string values
+            product_form.categories.choices = [(str(cat.id), cat.name) for cat in categories]
+
+        return {"product_form": product_form, "categories": categories}

@@ -58,25 +58,25 @@ def user_private_profile(username):
 @login_required
 @user_required
 def user_product_form(username):
-    return UserController.product_form(username)
+    return ProductController.form()
 
 @app.route("/users/<username>/products", methods=["POST"])
 @login_required
 @user_required
 def user_product_publish(username):
-    return ProductController.create(username)
+    return ProductController.create()
 
 @app.route("/users/<username>/products")
 @login_required
 @user_required
 def user_product_list(username):
-    return UserController.product_list(username)
+    return ProductController.current_user_list()
 
 @app.route("/users/<username>/products/<id>")
 @login_required
 @user_required
 def user_product_view(username, id):
-    return UserController.product_view(username, id)
+    return ProductController.edit(id)
 
 @app.route("/users/<username>/products/<id>", methods=["POST"])
 @login_required
