@@ -1,4 +1,4 @@
-from src.models.base import Base
+from src.models import Base
 from src.db import db
 
 class Category(Base):

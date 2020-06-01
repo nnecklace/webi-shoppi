@@ -1,7 +1,6 @@
 from src.db import db
 from sqlalchemy import exc, any_
-from src.models.categories import Category
-from src.models.products import Product
+from src.models import Product, Category
 import sys
 
 class CategoryProduct(db.Model):

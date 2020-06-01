@@ -1,8 +1,8 @@
 from flask import request, redirect, url_for
 from flask_login import login_user, logout_user
-from src.controllers.base import render
-from src.models.users import User
-from src.forms.authentication import RegisterForm, LoginForm
+from src.controllers import render
+from src.models import User
+from src.forms import RegisterForm, LoginForm
 
 class AuthenticationController:
     @staticmethod

@@ -2,8 +2,6 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, validators, IntegerField, widgets, SelectMultipleField
 from src.constants import get_required_msg
 
-# TODO: Rename this module
-
 class MultiCheckbox(SelectMultipleField):
     widget = widgets.ListWidget(prefix_label=False)
     option_widget = widgets.CheckboxInput()

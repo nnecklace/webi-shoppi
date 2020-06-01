@@ -1,11 +1,8 @@
 from flask import request, redirect, url_for
-from src.controllers.base import render
-from src.models.products import Product
-from src.models.categories import Category
-from src.models.categories_products import CategoryProduct
-from src.models.users import User
+from src.controllers import render
+from src.models import Product, Category, CategoryProduct, User
 from flask_login import current_user
-from src.forms.users import ProductForm
+from src.forms import ProductForm
 from sqlalchemy import desc
 
 class ProductController:

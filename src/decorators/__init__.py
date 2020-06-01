@@ -1,7 +1,7 @@
 from functools import wraps
 from flask_login import current_user
 from flask import redirect, url_for
-from src.models.users import User
+from src.models import User
 
 def user_required(fn):
     @wraps(fn)

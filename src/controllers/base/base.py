@@ -1,5 +1,5 @@
 from flask import render_template
-from src.forms.authentication import LoginForm
+from src.forms import LoginForm
 
 # Helper render function for rendering login form on all pages
 def render(view, **kwargs):

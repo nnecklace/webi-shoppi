@@ -1,8 +1,7 @@
 from flask import request, redirect, url_for
-from src.controllers.base import render
-from src.models.products import Product
-from src.models.categories import Category
-from src.forms.search import SearchForm
+from src.controllers import render
+from src.models import Product, Category
+from src.forms import SearchForm
 
 class SearchController:
     @staticmethod

@@ -1,5 +1,5 @@
 from src.db import db
-from src.models.base import Base
+from src.models import Base
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy import text, exc
 from src.constants import env_sqlite

@@ -1,10 +1,8 @@
-from src.controllers.base import render
+from src.controllers import render
 from flask import redirect, url_for
 from flask_login import current_user
-from src.forms.users import ProductForm
-from src.models.products import Product
-from src.models.categories import Category
-from src.models.users import User
+from src.forms import ProductForm
+from src.models import Category, Product, User
 
 class UserController:
     @staticmethod
