@@ -1,11 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, HiddenField, validators
 from src.constants import get_required_msg
-
-def validate_password(form, field):
-    special_chars = ["_", "/", "@", "|", "-", "+"]
-    if not any(char in field.data for char in special_chars):
-        raise validators.ValidationError("Salasanan täytyy sisältää ainakin yksi seuraavista erikoismerkeistä: _, /, @, |, -, +")
+from src.validators import validate_password
 
 class RegisterForm(FlaskForm):
     username = StringField("Käyttäjätunnus", [validators.InputRequired(message=get_required_msg()), validators.Length(min=4, message='Tunnus täytyy olla vähintään 4 merkkiä pitkä')])
