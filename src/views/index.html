@@ -106,5 +106,15 @@
         if (password_form_open) {
           $("#passwordChangeDialog").modal("show");
         }
+
+
+        $("#deleteAccount").one("submit", function(event) {
+          event.preventDefault();
+          const yes = confirm("Haluatko varmasti poistaa tilisi?");
+
+          if (yes) {
+            $(this).submit();
+          }
+        });
   </script>
 </html>

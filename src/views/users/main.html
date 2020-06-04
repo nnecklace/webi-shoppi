@@ -1,5 +1,8 @@
 {% extends "index.html" %}
 {% block body %}
+    <form class="position-relative" method="POST" id="deleteAccount" action="{{url_for('user_profile_delete', id = user.id)}}">
+        <button class="btn btn-danger position-absolute" style="top: 1rem; right: 0;" type="submit">Poista tilisi</button>
+    </form>
     <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="passwordChangeDialog">
         <div class="modal-dialog">
             <div class="modal-content">

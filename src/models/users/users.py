@@ -67,6 +67,10 @@ class User(Base):
         self.password = encrypt(password)
         return self._commit("user password:")
 
+    def try_delete(self):
+        db.session().delete(self)
+        return self._commit()
+
     @staticmethod
     def find_by_username_password(username, password):
         user = User.query.filter_by(username = username).first()

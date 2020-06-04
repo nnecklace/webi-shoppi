@@ -60,11 +60,19 @@ def user_private_profile(username):
 def user_profile_update(username):
     return UserController.update(username)
 
+@app.route("/users/<id>/delete", methods=["POST"])
+@login_required
+@user_required
+def user_profile_delete(id):
+    return UserController.delete(id)
+
 @app.route("/users/<username>/password", methods=["POST"])
 @login_required
 @user_required
 def user_change_password(username):
     return UserController.change_password(username)
+
+
 
 @app.route("/users/<username>/products/form")
 @login_required

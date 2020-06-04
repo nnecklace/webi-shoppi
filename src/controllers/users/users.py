@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, redirect, url_for
 from src.controllers import render
 from src.models import User
 from src.forms import UserForm, ChangePasswordForm
@@ -20,6 +20,14 @@ class UserController:
             return render("users/main.html", session_error = "Käyttäjätilin päivittäminen epäonnistui", user = user, user_form = user_form, change_password_form = ChangePasswordForm())
 
         return render("users/main.html", user = user, user_form = UserForm(), change_password_form = ChangePasswordForm())
+
+    @staticmethod
+    def delete(id):
+        user = User.query.filter_by(id = id).first()
+        if user == None or not user.try_delete():
+            return render("users/main.html", session_error = "Käyttäjätilin poistamaminen epäonnistui", user = user, user_form = UserForm(), change_password_form = ChangePasswordForm())
+
+        return redirect(url_for("index"))
 
     @staticmethod
     def change_password(username):
