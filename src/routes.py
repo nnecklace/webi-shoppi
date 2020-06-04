@@ -54,6 +54,12 @@ User & Product routes
 def user_private_profile(username):
     return UserController.index(username)
 
+@app.route("/users/<username>", methods=["POST"])
+@login_required
+@user_required
+def user_profile_update(username):
+    return UserController.update(username)
+
 @app.route("/users/<username>/products/form")
 @login_required
 @user_required
