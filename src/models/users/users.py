@@ -14,6 +14,7 @@ class User(Base):
     
     first_name = db.Column(db.String(150), nullable=False)
     last_name = db.Column(db.String(150), nullable=False)
+    email = db.Column(db.String(150), nullable=False)
     username = db.Column(db.String(150), nullable=False, unique=True)
     password = db.Column(db.String(150), nullable=False)
     balance = db.Column(db.Integer, default=0) # money will be stored as cents
@@ -39,16 +40,28 @@ class User(Base):
     def is_authenticated(self):
         return True
 
-    def save(self):
-        db.session().add(self)
+    def _commit(self, err_log = "", succ_log = ""):
         try:
             db.session().commit()
         except exc.SQLAlchemyError as err:
-            print("[ERROR] user save : " + str(err), sys.stderr)
+            print("[ERROR] " + err_log + " " + str(err), sys.stderr)
             return False
 
-        print("[SUCCESS] user was created successfully")
+        if succ_log:
+            print("[SUCCESS] " + succ_log)
+
         return True
+
+    def save(self):
+        db.session().add(self)
+        return self._commit("user create:")
+
+    def update(self, user_form):
+        self.username = user_form.username.data
+        self.email = user_form.email.data
+        self.first_name = user_form.first_name.data
+        self.last_name = user_form.last_name.data
+        return self._commit("user update:")
 
     @staticmethod
     def find_by_username_password(username, password):
