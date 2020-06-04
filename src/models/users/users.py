@@ -63,6 +63,10 @@ class User(Base):
         self.last_name = user_form.last_name.data
         return self._commit("user update:")
 
+    def update_password(self, password):
+        self.password = encrypt(password)
+        return self._commit("user password:")
+
     @staticmethod
     def find_by_username_password(username, password):
         user = User.query.filter_by(username = username).first()
