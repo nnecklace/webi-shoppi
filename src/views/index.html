@@ -100,4 +100,11 @@
       {% endblock %}
     </div>
   </body>
+  <script>
+        const password_form_open = {% if password_form_open == True %}true{% else %} false {% endif %};
+
+        if (password_form_open) {
+          $("#passwordChangeDialog").modal("show");
+        }
+  </script>
 </html>

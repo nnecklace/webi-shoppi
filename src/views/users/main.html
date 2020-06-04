@@ -1,5 +1,52 @@
 {% extends "index.html" %}
 {% block body %}
+    <div class="modal fade" tabindex="-1" role="dialog" aria-hidden="true" id="passwordChangeDialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Vaihda salasana</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="POST" action="{{url_for('user_change_password', username = user.username)}}">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            {{ change_password_form.old_password.label() }}
+                            {{ change_password_form.old_password(class_='form-control is-invalid' if change_password_form.old_password.errors | length > 0 else 'form-control') }}
+                            {% for error in change_password_form.old_password.errors %}
+                                <div class="invalid-feedback">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group">
+                            {{ change_password_form.new_password.label() }}
+                            {{ change_password_form.new_password(class_='form-control is-invalid' if change_password_form.new_password.errors | length > 0 else 'form-control') }}
+                            {% for error in change_password_form.new_password.errors %}
+                                <div class="invalid-feedback">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group">
+                            {{ change_password_form.new_password_again.label() }}
+                            {{ change_password_form.new_password_again(class_='form-control is-invalid' if change_password_form.new_password_again.errors | length > 0 else 'form-control') }}
+                            {% for error in change_password_form.new_password_again.errors %}
+                                <div class="invalid-feedback">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Päivitä</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Sulje</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <h1 class="mt-2">{{ user.username }}</h1>
     <div class="btn-toolbar">
         <div class="btn-group mr-2" role="group">
@@ -31,6 +78,7 @@
                         {{ user_form.last_name(class_='form-control', value=user.last_name) }}
                     </div>
                     <button class="btn btn-primary">Päivitä</button>
+                    <button type="button" data-toggle="modal" data-target="#passwordChangeDialog" class="btn btn-secondary">Vaihda salasana</button>
                 </div>
             </fieldset>
         </form>
