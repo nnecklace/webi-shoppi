@@ -1,7 +1,38 @@
 {% extends "index.html" %}
-
 {% block body %}
-    <h1>{{ current_user.username }}</h1>
-    <a href="{{url_for('user_product_form', username = current_user.username)}}" class="btn btn-link">Jätä ilmoitus</a>
-    <a href="{{url_for('user_product_list', username = current_user.username)}}" class="btn btn-link">Omat ilmoitukset</a>
+    <h1 class="mt-2">{{ user.username }}</h1>
+    <div class="btn-toolbar">
+        <div class="btn-group mr-2" role="group">
+            <a href="{{url_for('user_product_form', username = user.username)}}" class="btn btn-primary">Jätä ilmoitus</a>
+        </div>
+        <div class="btn-group">
+            <a href="{{url_for('user_product_list', username = user.username)}}" class="btn btn-primary">Omat ilmoitukset</a>
+        </div>
+    </div>
+    <div class="row">
+        <form class="mt-4 col-md-8 card" action="{{url_for('user_profile_update', username = user.username)}}" method="POST">
+            <div class="card-body">
+                <h2>Päivitä tilin tiedot</h2>
+                <fieldset>
+                    <div class="form-group">
+                        {{ user_form.username.label }}
+                        {{ user_form.username(class_='form-control', value=user.username) }}
+                    </div>
+                    <div class="form-group">
+                        {{ user_form.email.label }}
+                        {{ user_form.email(class_='form-control', value=user.email) }}
+                    </div>
+                    <div class="form-group">
+                        {{ user_form.first_name.label }}
+                        {{ user_form.first_name(class_='form-control', value=user.first_name) }}
+                    </div>
+                    <div class="form-group">
+                        {{ user_form.last_name.label }}
+                        {{ user_form.last_name(class_='form-control', value=user.last_name) }}
+                    </div>
+                    <button class="btn btn-primary">Päivitä</button>
+                </div>
+            </fieldset>
+        </form>
+    </div>
 {% endblock %}

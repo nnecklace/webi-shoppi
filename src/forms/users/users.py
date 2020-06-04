@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, HiddenField, validators
+from wtforms import StringField, validators
 from src.constants import get_required_msg
 
 class UserForm(FlaskForm):
