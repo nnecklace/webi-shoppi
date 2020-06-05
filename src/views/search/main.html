@@ -3,7 +3,7 @@
 {% block body %}
     <form class="mt-2 card" method="GET" action="{{url_for('search_list')}}">
         <div class="card-body">
-            <h2>Hae Tuotteita</h2>
+            <h3>Hae Tuotteita</h3>
             <div class="form-group">
                 {{ search_form.name.label(for='productName') }}
                 {{ search_form.name(class_='form-control', id='productName') }}
@@ -14,8 +14,8 @@
             </div>
             <div class="form-group">
                 <small class="form-text text-muted">
-                    Valitse tuotteen julkaisupäivämäärä. <i>Jälkeen</i> hakee kaikki tuotteet jotka julkaistiin sinä päivänä tai jälkeen.
-                    <i>Ennen</i> hakee kaikki tuotteet jotka julkaistiin sinä päivänä tai ennen.
+                    Valitse tuotteen julkaisupäivämäärä. <em>Jälkeen</em> hakee kaikki tuotteet jotka julkaistiin sinä päivänä tai jälkeen.
+                    <em>Ennen</em> hakee kaikki tuotteet jotka julkaistiin sinä päivänä tai ennen.
                 </small>
             </div>
             <div class="row">
