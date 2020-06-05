@@ -8,7 +8,6 @@ app.config["SECRET_KEY"] = urandom(32)
 
 from src.db import db
 from src.models import categories, users, products, categories_products
-from src import routes
 
 """
 Login manager
@@ -16,8 +15,10 @@ Login manager
 login_manager = LoginManager()
 
 login_manager.init_app(app)
-login_manager.login_message = "This is login message" # remove?
+login_manager.login_message = "Unauthorized"
 login_manager.login_view = "index"
+
+from src import routes
 
 @login_manager.user_loader
 def load_user(user_id):
