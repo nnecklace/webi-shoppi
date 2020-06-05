@@ -1,5 +1,5 @@
 from src.db import db
-from src.models import Base
+from src.models import Base, Product, CategoryProduct
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy import text, exc
 from src.constants import env_sqlite
@@ -19,7 +19,7 @@ class User(Base):
     password = db.Column(db.String(150), nullable=False)
     balance = db.Column(db.Integer, default=0) # money will be stored as cents
     
-    products = db.relationship("Product", back_populates="user")
+    products = db.relationship("Product", back_populates="user", passive_deletes=True)
 
     def __init__(self, username, email, first_name, last_name, password):
         self.username = username

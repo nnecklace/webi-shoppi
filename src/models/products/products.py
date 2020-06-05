@@ -17,9 +17,9 @@ class Product(Base):
     else:
         id_field = db.Integer
 
-    user_id = db.Column(id_field, db.ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(id_field, db.ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
 
-    user = db.relationship("User", back_populates="products", lazy="joined")
+    user = db.relationship("User", passive_deletes=True, back_populates="products", lazy="joined")
     categories = db.relationship("Category", secondary="categories_products", back_populates="products", lazy="joined")
 
     def __init__(self, name, price, quantity, user_id):

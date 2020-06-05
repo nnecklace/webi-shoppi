@@ -9,7 +9,7 @@ class CategoryProduct(db.Model):
         db.PrimaryKeyConstraint("category_id", "product_id"),
     )
     category_id = db.Column(db.Integer, db.ForeignKey("categories.id"), nullable=False)
-    product_id = db.Column(db.Integer, db.ForeignKey("products.id"), nullable=False)
+    product_id = db.Column(db.Integer, db.ForeignKey("products.id", ondelete="CASCADE"), nullable=False)
 
     def add_product_categories(self, product_id, categories):
         current_category_ids = list(map(lambda cat: cat.id,
