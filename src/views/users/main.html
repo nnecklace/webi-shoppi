@@ -80,9 +80,21 @@
                         {{ user_form.last_name.label }}
                         {{ user_form.last_name(class_='form-control', value=user.last_name) }}
                     </div>
-                    <button class="btn btn-primary">Päivitä</button>
-                    <a class="btn btn-info" href="{{url_for('user_balance_form', username = user.username)}}">Lisää rahaa</a>
-                    <button type="button" data-toggle="modal" data-target="#passwordChangeDialog" class="btn btn-secondary">Vaihda salasana</button>
+                    <div class="form-group">
+                        <label for="">Saldo</label>
+                        <div class="row">
+                            <div class="col">
+                                <input class="form-control d-inline" type="text" readonly value={{user.balance}}>
+                            </div>
+                            <div class="col">
+                                <a class="btn btn-info" href="{{url_for('user_balance_form', username = user.username)}}">Lisää rahaa</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-2">
+                        <button class="btn btn-primary">Päivitä</button>
+                        <button type="button" data-toggle="modal" data-target="#passwordChangeDialog" class="btn btn-secondary">Vaihda salasana</button>
+                    </div>
                 </div>
             </fieldset>
         </form>
