@@ -1,0 +1,18 @@
+{% extends "index.html" %}
+{% block body %}
+<h2 class="mt-2">Saldo</h2>
+<form class="mt-4 col-md-6 mx-auto card" action="">
+    <div class="card-body">
+        <h3>Saldon määrä: {{current_user.balance}}</h3>
+        <fieldset>
+            <div class="form-group">
+                {{ balance_form.balance.label() }}
+                {{ balance_form.balance(class_='form-control', placeholder=0) }}
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit">Lisää</button>
+            </div>
+        </fieldset>
+    </div>
+</form>
+{% endblock %}

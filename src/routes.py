@@ -69,6 +69,12 @@ def user_private_profile(username):
 def user_profile_update(username):
     return UserController.update(username)
 
+@app.route("/users/<username>/balance")
+@login_required
+@user_required
+def user_add_balance(username):
+    return UserController.balance_form()
+
 @app.route("/users/<id>/delete", methods=["POST"])
 @login_required
 @user_required

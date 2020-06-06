@@ -1,7 +1,7 @@
 from flask import request, redirect, url_for
 from src.controllers import render
 from src.models import User
-from src.forms import UserForm, ChangePasswordForm
+from src.forms import UserForm, ChangePasswordForm, BalanceForm
 
 class UserController:
     @staticmethod
@@ -20,6 +20,10 @@ class UserController:
             return render("users/main.html", session_error = "Käyttäjätilin päivittäminen epäonnistui", user = user, user_form = user_form, change_password_form = ChangePasswordForm())
 
         return render("users/main.html", user = user, user_form = UserForm(), change_password_form = ChangePasswordForm())
+
+    @staticmethod
+    def balance_form():
+        return render("users/balance_form.html", balance_form = BalanceForm())
 
     @staticmethod
     def delete(id):
