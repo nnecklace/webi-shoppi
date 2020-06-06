@@ -19,7 +19,7 @@ class UserController:
         if not user.update(user_form):
             return render("users/main.html", session_error = "Käyttäjätilin päivittäminen epäonnistui", user = user, user_form = user_form, change_password_form = ChangePasswordForm())
 
-        return render("users/main.html", user = user, user_form = UserForm(), change_password_form = ChangePasswordForm())
+        return render("users/main.html", session_success = "Tilin tiedot päivitetty", user = user, user_form = UserForm(), change_password_form = ChangePasswordForm())
 
     @staticmethod
     def balance_form():
