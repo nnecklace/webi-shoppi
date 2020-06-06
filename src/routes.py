@@ -37,6 +37,15 @@ Product routes
 def product_list():
     return ProductController.index()
 
+@app.route("/products/<id>")
+def product_details(id):
+    return ProductController.get(id)
+
+@app.route("/products/<id>", methods=["POST"])
+@login_required
+def product_purchase(id):
+    return ProductController.purchase(id)
+
 """
 Search routes
 """
@@ -45,7 +54,7 @@ def search_list():
     return SearchController.get()
 
 """
-User & Product routes
+User & User Product routes
 """
 
 @app.route("/users/<username>")
@@ -71,8 +80,6 @@ def user_profile_delete(id):
 @user_required
 def user_change_password(username):
     return UserController.change_password(username)
-
-
 
 @app.route("/users/<username>/products/form")
 @login_required

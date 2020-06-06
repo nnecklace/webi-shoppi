@@ -11,6 +11,20 @@ class ProductController:
         return render("products/main.html", products = Product.query.order_by(desc(Product.created_at)).filter(Product.quantity > 0).all())
 
     @staticmethod
+    def get(id):
+        return render("products/details.html", product = Product.query.get(id))
+
+    @staticmethod
+    def purchase(id):
+        product = Product.query.get(id)
+        user = User.query.filter_by(username = current_user.username).first()
+
+        if not user.purchase(product):
+            return render("products/details.html", session_error = "Tuotteen osto epäonnistui", product = product)
+
+        return render("products/details.html", session_success = "Tuotteen osto onnistui", product = product)
+
+    @staticmethod
     def create():
         product_form = ProductForm(request.form)
         categories_products = CategoryProduct()

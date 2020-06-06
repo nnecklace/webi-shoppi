@@ -71,6 +71,20 @@ class User(Base):
         db.session().delete(self)
         return self._commit()
 
+    def purchase(self, product):
+        if product.quantity < 1:
+            return False
+
+        if product.user_id == self.id:
+            return False
+
+        if self.balance >= product.price:
+            self.balance -= product.price
+            product.quantity -= 1
+            return self._commit("user purchase product " + str(product.id) + ":")
+
+        return False
+
     @staticmethod
     def find_by_username_password(username, password):
         user = User.query.filter_by(username = username).first()
