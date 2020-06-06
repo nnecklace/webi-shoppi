@@ -26,6 +26,20 @@ class UserController:
         return render("users/balance_form.html", balance_form = BalanceForm())
 
     @staticmethod
+    def add_balance(username):
+        balance_form = BalanceForm(request.form)
+
+        if not balance_form.validate():
+            return render("users/balance_form.html", balance_form = BalanceForm())
+
+        user = User.query.filter_by(username = username).first()
+
+        if not user.set_balance(balance_form.balance.data):
+            return render("users/balance_form.html", session_error = "Saldon päivittäminen epäonnistui", balance_form = BalanceForm())
+
+        return render("users/main.html", session_success = "Saldon pävittäminen onnistui, saldon määrä on " + str(user.balance), user = user, user_form = UserForm(), change_password_form = ChangePasswordForm())
+
+    @staticmethod
     def delete(id):
         user = User.query.filter_by(id = id).first()
         if user == None or not user.try_delete():

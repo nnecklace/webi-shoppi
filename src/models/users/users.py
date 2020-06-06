@@ -2,7 +2,7 @@ from src.db import db
 from src.models import Base, Product, CategoryProduct
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy import text, exc
-from src.constants import env_sqlite
+from src.constants import env_sqlite, get_max_integer
 from src.encryption import encrypt, check_pwd
 import sys
 
@@ -70,6 +70,16 @@ class User(Base):
     def try_delete(self):
         db.session().delete(self)
         return self._commit()
+
+    def set_balance(self, balance):
+        new_balance = self.balance + balance
+
+        if new_balance > get_max_integer():
+            return False
+
+        self.balance = new_balance
+
+        return self._commit("user balance:")
 
     def purchase(self, product):
         if product.quantity < 1:
