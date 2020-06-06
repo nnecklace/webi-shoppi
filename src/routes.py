@@ -72,8 +72,14 @@ def user_profile_update(username):
 @app.route("/users/<username>/balance")
 @login_required
 @user_required
-def user_add_balance(username):
+def user_balance_form(username):
     return UserController.balance_form()
+
+@app.route("/users/<username>/balance", methods=["POST"])
+@login_required
+@user_required
+def user_balance_add(username):
+    return UserController.add_balance(username)
 
 @app.route("/users/<id>/delete", methods=["POST"])
 @login_required

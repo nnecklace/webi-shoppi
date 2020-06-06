@@ -81,7 +81,7 @@
                         {{ user_form.last_name(class_='form-control', value=user.last_name) }}
                     </div>
                     <button class="btn btn-primary">Päivitä</button>
-                    <a class="btn btn-info" href="{{url_for('user_add_balance', username = user.username)}}">Lisää rahaa</a>
+                    <a class="btn btn-info" href="{{url_for('user_balance_form', username = user.username)}}">Lisää rahaa</a>
                     <button type="button" data-toggle="modal" data-target="#passwordChangeDialog" class="btn btn-secondary">Vaihda salasana</button>
                 </div>
             </fieldset>
