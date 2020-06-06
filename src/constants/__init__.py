@@ -19,3 +19,6 @@ def env_db_url():
 
 def get_required_msg():
     return "Kenttä on pakollinen"
+
+def get_max_integer():
+    return 1073741824
