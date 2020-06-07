@@ -52,8 +52,9 @@ class Product(Base):
         return self._commit("product " + str(self.id) + " delete :")
 
     @staticmethod
-    def find_by_criteria(name, categories, price, published_start, published_end, seller):
+    def find_by_criteria(name, categories, price, minimum, published_start, published_end, seller):
         params_dict = {}
+
         stmt = ("SELECT products.id,"
                " products.name,"
                " products.created_at,"
@@ -72,53 +73,66 @@ class Product(Base):
         date_format_start = "%Y-%m-%d 00:00:00"
         date_format_end  = "%Y-%m-%d 23:59:59"
 
-        def add_parameter(key, value):
+        def build_query(key, value = ""):
             nonlocal stmt
             if key == "name":
                 stmt += " AND products.name LIKE :name"
             elif key == "price":
-                stmt += " AND price <= :price"
+                stmt += " AND products.price <= :price"
+            elif key == "minimum":
+                stmt += " AND products.price = (SELECT MIN(products.price) FROM products)"
             elif key == "seller":
                 stmt += " AND users.username LIKE :seller"
             elif key == "published_start":
                 stmt +=  " AND products.created_at >= :published_start"
             elif key == "published_end":
                 stmt +=  " AND products.created_at <= :published_end"
-            params_dict[key] = value
+            elif key == "order_by":
+                stmt += " ORDER BY products.created_at DESC"
+            elif key == "group_by":
+                stmt += " GROUP BY products.id, users.username"
+            elif key == "categoryless":
+                stmt += " HAVING COUNT(categories_products.product_id) = 0"
+
+            if value:
+                params_dict[key] = value
 
         if name:
-            add_parameter("name", "%"+name+"%")
+            build_query("name", "%"+name+"%")
 
-        if price:
-            add_parameter("price", price)
+        if price and not minimum:
+            build_query("price", price)
+
+        if minimum:
+            build_query("minimum")
 
         # Could also use SQL BETWEEN clause, but doing it this way makes to code easier to read imo
         if published_start:
-            add_parameter("published_start", published_start.strftime(date_format_start))
+            build_query("published_start", published_start.strftime(date_format_start))
 
         if published_end:
-            add_parameter("published_end", published_end.strftime(date_format_end))
+            build_query("published_end", published_end.strftime(date_format_end))
 
         if seller:
-            add_parameter("seller", "%"+seller+"%")
+            build_query("seller", "%"+seller+"%")
 
         if not -1 in categories and len(categories) > 0:
             # build subquery for getting categories
             subquery = " AND categories.id = ANY(SELECT categories.id FROM categories WHERE categories.id = :cat_0"
-            add_parameter("cat_0", categories[0])
+            build_query("cat_0", categories[0])
             for indx in range(1, len(categories)):
                 subquery += " OR categories.id = :cat_"+str(indx)
-                add_parameter("cat_"+str(indx), categories[indx])
+                build_query("cat_"+str(indx), categories[indx])
             subquery += ")"
             stmt += subquery
 
-        stmt += " GROUP BY products.id, users.username"
+        build_query("group_by")
 
         # if uncategorized was selected
         if -1 in categories:
-            stmt += " HAVING COUNT(categories_products.product_id) = 0"
+            build_query("categoryless")
         
-        stmt += " ORDER BY products.created_at DESC"
+        build_query("order_by")
 
         stmt = text(stmt).bindparams(**params_dict)
 

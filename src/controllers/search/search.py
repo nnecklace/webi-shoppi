@@ -15,6 +15,7 @@ class SearchController:
                                                                                         search_form.name.data,
                                                                                         list(map(lambda id: int(id), search_form.categories.data)),
                                                                                         search_form.price.data,
+                                                                                        search_form.minimum.data,
                                                                                         search_form.date_start.data,
                                                                                         search_form.date_end.data,
                                                                                         search_form.seller.data))

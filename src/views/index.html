@@ -8,16 +8,26 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script>
+      function cheapest(element) {
+        productPriceInput = document.getElementById("productPrice");
+        if (element.checked) {
+          productPriceInput.disabled = true;
+          productPriceInput.value = "";
+        } else {
+          productPriceInput.disabled = false;
+        }
+      }
+
       function checkAll(element) {
         const checkboxes = document.getElementsByClassName("custom-control-input");
 
         function toggle(bool) {
           for (let i = 0; i < checkboxes.length; i++) {
             let curr = checkboxes[i];
-            if (curr.type === "checkbox" && curr.value !== "-1") {
+            if (curr.type === "checkbox" && curr.value !== "-1" && curr.id !== "minimum") {
               curr.checked = bool;
             }
-            if (curr.value === "-1" && curr.type === "checkbox" && curr.checked === true && bool) curr.checked = false
+            if (curr.value === "-1" && curr.type === "checkbox" && curr.id !== "minimum" && curr.checked === true && bool) curr.checked = false
           }
         }
 

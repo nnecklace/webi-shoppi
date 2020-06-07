@@ -44,6 +44,12 @@
                     <label for="categoriesAll" class="custom-control-label">Kaikki</label>
                 </div>
             </div>
+            <div class="form-group">
+                <div class="custom-control custom-checkbox">
+                    {{ search_form.minimum(class_='custom-control-input', onchange='cheapest(this)')}}
+                    {{ search_form.minimum.label(class_='custom-control-label') }}
+                </div>
+            </div>
             <button class="btn btn-primary btn-lg btn-block" type="submit">Hae</button>
         </div>
     </form>
