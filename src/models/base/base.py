@@ -15,3 +15,10 @@ class Base(db.Model):
             return UUID(as_uuid=True)
         else:
             return db.Integer
+
+    @staticmethod
+    def get_user_id_default():
+        if not env_sqlite():
+            return "uuid_generate_v4()"
+        else:
+            return "0"

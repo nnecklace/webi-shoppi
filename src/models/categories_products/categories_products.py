@@ -1,5 +1,5 @@
 from src.db import db
-from sqlalchemy import exc, any_
+from sqlalchemy import exc
 from src.models import Product, Category
 import sys
 
@@ -15,7 +15,7 @@ class CategoryProduct(db.Model):
         current_category_ids = list(map(lambda cat: cat.id,
                                     Category.query.filter(Product.id == product_id).all()))
 
-        categories_to_delete = CategoryProduct.query.filter(CategoryProduct.product_id == product_id).filter(CategoryProduct.category_id == (any_(current_category_ids)))
+        categories_to_delete = CategoryProduct.query.filter(CategoryProduct.product_id == product_id).filter(CategoryProduct.category_id.in_(current_category_ids))
 
         categories_to_delete.delete(synchronize_session="fetch")
 

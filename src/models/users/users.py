@@ -8,7 +8,7 @@ import sys
 class User(Base):
     __tablename__ = "users"
 
-    id = db.Column(Base.generate_user_id_field(), primary_key=True, server_default=text("uuid_generate_v4()"), unique=True, nullable=False)
+    id = db.Column(Base.generate_user_id_field(), primary_key=True, unique=True, nullable=False)
     first_name = db.Column(db.String(150), nullable=False)
     last_name = db.Column(db.String(150), nullable=False)
     email = db.Column(db.String(150), nullable=False)

@@ -1,6 +1,7 @@
 from src.db import db
 from src.models import Base
 from sqlalchemy import exc, text
+from datetime import datetime
 import sys
 
 class Product(Base):
@@ -110,7 +111,7 @@ class Product(Base):
 
         if not -1 in categories and len(categories) > 0:
             # build subquery for getting categories
-            subquery = " AND categories.id = ANY(SELECT categories.id FROM categories WHERE categories.id = :cat_0"
+            subquery = " AND categories.id IN (SELECT categories.id FROM categories WHERE categories.id = :cat_0"
             build_query("cat_0", categories[0])
             for indx in range(1, len(categories)):
                 subquery += " OR categories.id = :cat_"+str(indx)
@@ -136,7 +137,7 @@ class Product(Base):
             if not row[0] in lookup:
                 response.append({"id": row[0],
                                 "name": row[1],
-                                "created_at": row[2],
+                                "created_at": datetime.strptime(row[2], "%Y-%m-%d %H:%M:%S") if type(row[2]) is str else row[2],
                                 "price": row[3],
                                 "quantity": row[4],
                                 "user": {"username": row[5]}})
