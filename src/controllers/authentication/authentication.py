@@ -26,7 +26,7 @@ class AuthenticationController:
 
         if not user.save():
             flash("Käyttäjätilin luominen epäonnistui", "error")
-            return render(form.view_data_field.data, form = form)
+            return redirect(request.referrer)
 
         flash("Käyttäjätilin luominen onnistui! Voit kirjautua sisään tunnuksella " + user.username, "success")
         return render("index.html")
@@ -36,7 +36,8 @@ class AuthenticationController:
         login_form = LoginForm(request.form)
 
         if not login_form.validate():
-            return render(login_form.view_data_field.data, login_form = login_form)
+            flash("Kirjautuminen epäonnistui", "error")
+            return redirect(request.referrer)
 
         user = User.find_by_username_password(login_form.username.data, login_form.password.data)
 
