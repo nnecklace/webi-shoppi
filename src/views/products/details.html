@@ -1,24 +1,58 @@
 {% extends 'index.html' %}
 
 {% block body %}
-    <div class="card h-100 mt-2">
+    <div class="card h-100 mt-2 col-md-8 pr-0 pl-0 mx-auto">
         <div class="card-header">
-            Tuotteen tiedot
+            <ul class="nav nav-tabs  card-header-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active" id="product-tab" data-toggle="tab" href="#product" role="tab" aria-controls="product" aria-selected="true">Tiedot</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="comments-tab" data-toggle="tab" href="#comments" role="tab" aria-controls="comments" aria-selected="false">Kommentit</a>
+                </li>
+            </ul>
         </div>
-        <div class="card-body">
-            <h5 class="card-title">{{product.name}}<h5>
-            <p class="card-text"><small class="text-muted">Hinta: {{product.price}} €</small></p>
-            <p class="card-text"><small class="text-muted">Kpl jäljellä: {{product.quantity}}</small></p>
-            <div>
-                {% for category in product.categories %}
-                    {% if not category.name == None %}
-                        <span style="font-size: 0.75rem" class="badge badge-pill badge-primary">{{ category.name }}</span>
-                    {% endif %}
-                {% endfor %}
+        <div class="card-body tab-content">
+            <div class="tab-pane fade {% if not comment_open %}show active{% endif %}" id="product">
+                <h5 class="card-title">{{product.name}}<h5>
+                <p class="card-text"><small class="text-muted">Hinta: {{product.price}} €</small></p>
+                <p class="card-text"><small class="text-muted">Kpl jäljellä: {{product.quantity}}</small></p>
+                <div>
+                    {% for category in product.categories %}
+                        {% if not category.name == None %}
+                            <span style="font-size: 0.75rem" class="badge badge-pill badge-primary">{{ category.name }}</span>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <form class="mt-3" action="{{url_for('product_purchase', id = product.id)}}" method="POST">
+                    <button class="btn btn-info" {% if product.quantity < 1 or product.user_id == current_user.id %}disabled{% endif %}>Osta</button>
+                </form>
             </div>
-            <form class="mt-3" action="{{url_for('product_purchase', id = product.id)}}" method="POST">
-                <button class="btn btn-info" {% if product.quantity < 1 or product.user_id == current_user.id %}disabled{% endif %}>Osta</button>
-            </form>
+            <div class="tab-pane fade {% if comment_open %}show active{% endif %}" id="comments">
+                {% for comment in product.comments %}
+                    <blockquote class="blockquote mb-0">
+                        <p>{{ comment.content }}</p>
+                        <footer class="blockquote-footer">Käyttäjä: <cite title="Source Title">{{comment.user.username}}</cite></footer>
+                    </blockquote>
+                    <hr />
+                {% endfor %}
+                {% if current_user.is_authenticated %}
+                    <form action="{{url_for('product_comment', id = product.id)}}" method="POST">
+                        <div class="form-group">
+                            {{ comment_form.comment.label() }}
+                            {{ comment_form.comment(class_='form-control is-invalid' if comment_form.comment.errors | length > 0 else 'form-control') }}
+                            {% for error in comment_form.comment.errors %}
+                                <div class="invalid-feedback">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <button type="submit" class="btn btn-primary">Lähetä</button>
+                    </form>
+                {% else %}
+                    <p class="card-text">Kirjaudu sisään jättääksesi kommentin</p>
+                {% endif %}
+            </div>
         </div>
         <div class="card-footer">
             <small class="text-muted">Julkaistu: {{product.created_at.strftime('%d/%m/%Y')}}</small>

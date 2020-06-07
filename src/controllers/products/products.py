@@ -2,7 +2,7 @@ from flask import request, redirect, url_for
 from src.controllers import render
 from src.models import Product, Category, CategoryProduct, User
 from flask_login import current_user
-from src.forms import ProductForm
+from src.forms import ProductForm, CommentForm
 from sqlalchemy import desc
 
 class ProductController:
@@ -12,7 +12,7 @@ class ProductController:
 
     @staticmethod
     def get(id):
-        return render("products/details.html", product = Product.query.get(id))
+        return render("products/details.html", comment_form = CommentForm(), product = Product.query.get(id))
 
     @staticmethod
     def purchase(id):
