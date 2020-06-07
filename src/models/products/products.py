@@ -21,6 +21,7 @@ class Product(Base):
 
     user = db.relationship("User", passive_deletes=True, back_populates="products", lazy="joined")
     categories = db.relationship("Category", secondary="categories_products", back_populates="products", lazy="joined")
+    comments = db.relationship("Comment", lazy="joined")
 
     def __init__(self, name, price, quantity, user_id):
         self.name = name
