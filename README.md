@@ -1,7 +1,7 @@
 # webi-shoppi
 
 Webi-Shopin tarkoitus on olla pieni ja kevyt verkkokauppapalvelu. Käyttjillä on mahdollisuus lisätä, ostaa, poistaa, varata tuotteita.
-Käyttjillä on kaksi implisiittisiä rooleja, kuluttaja ja myyjä. Tuotteita voi olla useita. Myyjänä pystyt julkaisemaan tuotteita myytäväksi, asettaa hintaa omille tuotteille. Tuotteilla on yksi myyjä, useita kategorioita sekä useita kuluttajien jättämät kommentit (Kommentit ominaisuus jää todennäköisesti toteutumatta).
+Käyttjillä on kaksi implisiittisiä rooleja, kuluttaja ja myyjä. Tuotteita voi olla useita. Myyjänä pystyt julkaisemaan tuotteita myytäväksi, asettaa hintaa omille tuotteille. Tuotteilla on yksi myyjä, useita kategorioita sekä useita kuluttajien jättämät kommentit.
 Kuluttajana pystyt ostamaan tuotteita, mikäli tililläsi on rahaa tai luottokortilla. Kuluttajana pystyt arvostelemaan tuotteita jättämällä kommentteja. 
 
 [Tietokantakaavio](https://github.com/nnecklace/webi-shoppi/blob/master/diagrams/diagram.md)
