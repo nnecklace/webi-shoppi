@@ -72,7 +72,7 @@ class User(Base):
         new_balance = self.balance + balance
 
         if new_balance > get_max_integer():
-            return False
+            new_balance = get_max_integer()
 
         self.balance = new_balance
 
@@ -87,6 +87,7 @@ class User(Base):
 
         if self.balance >= product.price:
             self.balance -= product.price
+            product.user.set_balance(product.price)
             product.quantity -= 1
             return self._commit("user purchase product " + str(product.id) + ":")
 

@@ -20,11 +20,11 @@ class ProductController:
         user = User.query.filter_by(username = current_user.username).first()
 
         if not user.purchase(product):
-            flash("Tuotteen osto epäonnistui", "error")
-            return render("products/details.html", product = product)
+            flash("Tuotteen osto epäonnistui, onko sinulla varmasti tarpeeksi rahaa?", "error")
+            return render("products/details.html", comment_form = CommentForm(), product = product)
 
         flash("Tuotteen osto onnistui", "success")
-        return render("products/details.html", product = product)
+        return render("products/details.html", comment_form = CommentForm(), product = product)
 
     @staticmethod
     def create():
