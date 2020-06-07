@@ -10,6 +10,8 @@ class Comment(Base):
 
     user_id = db.Column(Base.generate_user_id_field(), db.ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     user = db.relationship("User", passive_deletes=True, lazy="joined")
+    # This relation is only used for cascading deletes, sqlalchemy requires backref relation for cascading deletes to work :/
+    product = db.relationship("Product", passive_deletes=True, lazy="select")
 
     def __init__(self, content, product_id, user_id):
         self.content = content
