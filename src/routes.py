@@ -1,5 +1,5 @@
 from src import app
-from src.controllers import ProductController, AuthenticationController, SearchController, UserController, render
+from src.controllers import ProductController, AuthenticationController, SearchController, UserController, CommentController, render
 from src.decorators import user_required
 from flask_login import login_required
 
@@ -31,8 +31,6 @@ def authentication_logout():
 Product routes
 """ 
 
-# TODO: Check blueprint route groups
-
 @app.route("/products")
 def product_list():
     return ProductController.index()
@@ -45,6 +43,11 @@ def product_details(id):
 @login_required
 def product_purchase(id):
     return ProductController.purchase(id)
+
+@app.route("/products/<id>/comments", methods=["POST"])
+@login_required
+def product_comment(id):
+    return CommentController.create(id)
 
 """
 Search routes
