@@ -1,7 +1,5 @@
 from src.db import db
 from src.models import Base
-from src.constants import env_sqlite
-from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy import exc
 import sys
 
@@ -9,13 +7,8 @@ class Comment(Base):
     __tablename__ = "comments"
     content = db.Column(db.Text, nullable=False)
     product_id = db.Column(db.Integer, db.ForeignKey("products.id", ondelete="CASCADE"), nullable=False)
-    id_field = None
-    if not env_sqlite():
-        id_field = UUID(as_uuid=True)
-    else:
-        id_field = db.Integer
 
-    user_id = db.Column(id_field, db.ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    user_id = db.Column(Base.generate_user_id_field(), db.ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     user = db.relationship("User", passive_deletes=True, lazy="joined")
 
     def __init__(self, content, product_id, user_id):

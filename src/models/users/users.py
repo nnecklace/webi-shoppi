@@ -1,17 +1,14 @@
 from src.db import db
 from src.models import Base, Product, CategoryProduct
-from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy import text, exc
-from src.constants import env_sqlite, get_max_integer
+from src.constants import get_max_integer
 from src.encryption import encrypt, check_pwd
 import sys
 
 class User(Base):
     __tablename__ = "users"
 
-    if not env_sqlite():
-        id = db.Column(UUID(as_uuid=True), primary_key=True, server_default=text("uuid_generate_v4()"), unique=True, nullable=False)
-    
+    id = db.Column(Base.generate_user_id_field(), primary_key=True, server_default=text("uuid_generate_v4()"), unique=True, nullable=False)
     first_name = db.Column(db.String(150), nullable=False)
     last_name = db.Column(db.String(150), nullable=False)
     email = db.Column(db.String(150), nullable=False)

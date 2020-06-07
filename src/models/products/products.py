@@ -1,7 +1,5 @@
 from src.db import db
 from src.models import Base
-from sqlalchemy.dialects.postgresql import UUID
-from src.constants import env_sqlite
 from sqlalchemy import exc, text
 import sys
 
@@ -10,14 +8,7 @@ class Product(Base):
     name = db.Column(db.String(150), nullable=False)
     price = db.Column(db.Integer, nullable=False)
     quantity = db.Column(db.Integer, default=0)
-
-    id_field = None
-    if not env_sqlite():
-        id_field = UUID(as_uuid=True)
-    else:
-        id_field = db.Integer
-
-    user_id = db.Column(id_field, db.ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    user_id = db.Column(Base.generate_user_id_field(), db.ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
 
     user = db.relationship("User", passive_deletes=True, back_populates="products", lazy="joined")
     categories = db.relationship("Category", secondary="categories_products", back_populates="products", lazy="joined")
