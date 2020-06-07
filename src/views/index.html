@@ -97,7 +97,6 @@
                   {{ login_form.password.label(for='loginPassword') }}
                   {{ login_form.password(class_='form-control', placeholder='****', id='loginPassword') }}
                 </div>
-                {{ login_form.view_data_field(value=_view_data) }}
                 <button type="submit" class="btn btn-primary">Kirjaudu</button>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{{url_for('authentication_register_form')}}">Luo tunnus</a>

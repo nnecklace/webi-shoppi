@@ -42,7 +42,7 @@ class AuthenticationController:
 
         if not user:
             flash("Kirjautuminen epäonnistui", "error")
-            return render(login_form.view_data_field.data) 
+            return redirect(request.referrer)
 
         login_user(user)
 
