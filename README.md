@@ -50,6 +50,9 @@ SQLitella:
 
 ```ENV=SQLITE python run.py```
 
+Huom! Ohjelma voi toimia tosi epäluotettavasti SQLitella! Suosittelen dockeria tai lokaali postgres tietokanta.
+Esim. Käyttäjätilin poistaminen voi aiheuttaa pahoja bugeja, joista yksi on semmoinen jossa seuraava käyttäjä perii äsken positetun käyttäjän tuotteet ja kommentit.
+
 ## Testaaminen
 
 Herokussa on yksi testikäyttäjä: 
