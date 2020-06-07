@@ -1,4 +1,4 @@
-from flask import request, redirect, url_for
+from flask import request, redirect, url_for, flash
 from src.controllers import render
 from src.models import Product, Category, CategoryProduct, User
 from flask_login import current_user
@@ -20,9 +20,11 @@ class ProductController:
         user = User.query.filter_by(username = current_user.username).first()
 
         if not user.purchase(product):
-            return render("products/details.html", session_error = "Tuotteen osto epäonnistui", product = product)
+            flash("Tuotteen osto epäonnistui", "error")
+            return render("products/details.html", product = product)
 
-        return render("products/details.html", session_success = "Tuotteen osto onnistui", product = product)
+        flash("Tuotteen osto onnistui", "success")
+        return render("products/details.html", product = product)
 
     @staticmethod
     def create():
@@ -34,12 +36,11 @@ class ProductController:
         categories_list = view_data["categories"]
 
         if not product_form.validate():
+            flash("Tuotteen julkaisu epäonnistui", "error")
             return render("users/product_form.html",
                           product_form = product_form,
-                          categories = categories_list,
-                          session_error = "Tuotteen julkaisu epäonnistui")
+                          categories = categories_list)
 
-        # TODO: check sanitization
         product = Product(
             product_form.name.data,
             product_form.price.data,
@@ -48,17 +49,18 @@ class ProductController:
         )
 
         if not product.save():
+            flash("Tuotteen julkaisu epäonnistui", "error")
             return render("users/product_form.html",
                           product_form = product_form,
-                          categories = categories_list,
-                          session_error = "Tuotteen julkaisu epäonnistui")
+                          categories = categories_list)
 
         if not categories_products.add_product_categories(product.id, product_form.categories.data):
+            flash("Tuote julkaistu. Kategorioiden lisäyksessä tapahtui virhe", "error")
             return render("users/product_form.html",
                           product_form = product_form,
-                          categories = categories_list,
-                          session_error = "Tuote julkaistu. Kategorioiden lisäyksessä tapahtui virhe")
+                          categories = categories_list)
 
+        flash("Tuote julkaistu", "success")
         return redirect(url_for("product_list"))
 
     @staticmethod
@@ -78,25 +80,26 @@ class ProductController:
         categories = view_data["categories"]
 
         if not product_form.validate():
+            flash("Tuotteen muokkaus epäonnistui", "error")
             return render("users/product_edit.html",
                           categories = categories,
                           product_form = product_form,
-                          product = product,
-                          session_error = "Tuotteen muokkaus epäonnistui")
+                          product = product)
 
         if not product.update(product_form):
+            flash("Tuotteen muokkaus epäonnistui", "error")
             return render("users/product_edit.html",
                           categories = categories,
                           product_form = product_form,
-                          product = product,
-                          session_error = "Tuotteen muokkaus epäonnistui")
+                          product = product)
 
         if not categories_products.add_product_categories(product.id, product_form.categories.data):
+            flash("Tuote muokkaus onnistui. Kategorioiden lisäyksessä tapahtui virhe", "error")
             return render("users/product_form.html",
                           categories = categories,
-                          product_form = product_form,
-                          session_error = "Tuote muokkaus onnistui. Kategorioiden lisäyksessä tapahtui virhe")
+                          product_form = product_form)
 
+        flash("Tuote päivitetty", "success")
         return redirect(url_for("user_product_list", username = username))
     
     @staticmethod
@@ -104,9 +107,10 @@ class ProductController:
         product = Product.query.get(id)
 
         if not product.delete():
-            # TODO: Redirect back with error message
+            flash("Ilmoituksen poisto epäonnistui", "error")
             return redirect(url_for("product_list"))
 
+        flash("Ilmoitus poistettu", "success")
         return redirect(url_for("user_product_list", username = username))
 
     @staticmethod

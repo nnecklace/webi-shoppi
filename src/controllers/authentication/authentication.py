@@ -1,4 +1,4 @@
-from flask import request, redirect, url_for
+from flask import request, redirect, url_for, flash
 from flask_login import login_user, logout_user
 from src.controllers import render
 from src.models import User
@@ -25,9 +25,11 @@ class AuthenticationController:
         )
 
         if not user.save():
-            return render(form.view_data_field.data, session_error = "Käyttäjätilin luominen epäonnistui", form = form)
+            flash("Käyttäjätilin luominen epäonnistui", "error")
+            return render(form.view_data_field.data, form = form)
 
-        return render("index.html", session_success = "Käyttäjätilin luominen onnistui! Voit kirjautua sisään tunnuksella " + user.username)
+        flash("Käyttäjätilin luominen onnistui! Voit kirjautua sisään tunnuksella " + user.username, "success")
+        return render("index.html")
 
     @staticmethod
     def login():
@@ -39,7 +41,8 @@ class AuthenticationController:
         user = User.find_by_username_password(login_form.username.data, login_form.password.data)
 
         if not user:
-            return render(login_form.view_data_field.data, session_error = "Kirjautuminen epäonnistui")
+            flash("Kirjautuminen epäonnistui", "error")
+            return render(login_form.view_data_field.data) 
 
         login_user(user)
 
