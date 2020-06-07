@@ -13,7 +13,6 @@ Tarina on tehty kun se on viety masteriin ja toimii Herokussa.
 
 ### Kirjautuminen Ja Rekisteröiminen
 - Käyttäjänä pystyn kirjautumaan sisään, jotta voin myydää tuotteita [DONE]
-    - Kirjautua voi joko käyttäjänimella [DONE]
 - Käyttäjänä pystyn rekisteröitymään, jotta voin myydä tuotteita [DONE]
 - Käyttäjänä pystyn rekisteröitymään, jotta voin ostaa tuotteita [DONE]
 
