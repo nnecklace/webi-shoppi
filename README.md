@@ -10,6 +10,8 @@ Kuluttajana pystyt ostamaan tuotteita, mikäli tililläsi on rahaa tai luottokor
 
 [Heroku](https://webi-shoppi.herokuapp.com/)
 
+[CREATE TABLE -lauseet](https://github.com/nnecklace/webi-shoppi/blob/master/documentation/create_table.md)
+
 ## Projektin asentaminen
 
 Varmista, että sinulla on ainakin python 3.7 asennettuna.
