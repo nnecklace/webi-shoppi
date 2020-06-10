@@ -12,7 +12,7 @@ class Product(Base):
     user_id = db.Column(Base.get_user_id_field(), db.ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
 
     user = db.relationship("User", passive_deletes=True, back_populates="products", lazy="joined")
-    categories = db.relationship("Category", secondary="categories_products", back_populates="products", lazy="joined")
+    categories = db.relationship("Category", secondary="categories_products", back_populates="products", lazy="joined", order_by="asc(Category.name)")
     comments = db.relationship("Comment", passive_deletes=True, back_populates="product", lazy="joined")
 
     def __init__(self, name, price, quantity, user_id):

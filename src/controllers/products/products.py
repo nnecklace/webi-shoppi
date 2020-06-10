@@ -3,7 +3,7 @@ from src.controllers import render
 from src.models import Product, Category, CategoryProduct, User
 from flask_login import current_user
 from src.forms import ProductForm, CommentForm
-from sqlalchemy import desc
+from sqlalchemy import desc, asc
 
 class ProductController:
     @staticmethod
@@ -137,7 +137,7 @@ class ProductController:
     @staticmethod
     def __get_view_data():
         product_form = ProductForm(request.form)
-        categories = Category.query.all()
+        categories = Category.query.order_by(asc(Category.name)).all()
 
         if not product_form.categories.choices:
             # flaskwtforms requires that multi checkbox widget has string values
