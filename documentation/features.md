@@ -255,9 +255,8 @@ UPDATE products SET modified_at=CURRENT_TIMESTAMP, quantity=%(quantity)s WHERE p
 ```
 
 ```sql
-DELETE FROM categories_products WHERE categories_products.product_id = %(product_id_1)s AND categories_products.category_id IN (%(category_id_1)s, %(category_id_2)s, %(category_id_3)s, 
-%(category_id_4)s, %(category_id_5)s, %(category_id_6)s, %(category_id_7)s, %(category_id_8)s, %(category_id_9)s, %(catego
-ry_id_10)s)
+DELETE FROM categories_products WHERE categories_products.product_id = %(product_id_1)s AND categories_products.category_id NOT IN (%(category_id_1)s, %(category_id_2)s, %(category_id_3)s, %(category_id_4)s
+
 INSERT INTO categories_products (category_id, product_id) VALUES (%(category_id)s, %(product_id)s)
 ```
 
