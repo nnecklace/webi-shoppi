@@ -25,7 +25,7 @@
                     {% endfor %}
                 </div>
                 <form class="mt-3" action="{{url_for('product_purchase', id = product.id)}}" method="POST">
-                    <button class="btn btn-info" {% if product.quantity < 1 or product.user_id == current_user.id %}disabled{% endif %}>Osta</button>
+                    <button class="btn btn-info" {% if product.quantity < 1 or product.user_id == current_user.id or not current_user.is_authenticated %}disabled{% endif %}>Osta</button>
                 </form>
             </div>
             <div class="tab-pane fade {% if comment_open %}show active{% endif %}" id="comments">
