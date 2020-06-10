@@ -61,7 +61,7 @@
                         <h5 class="card-title">{{product.name}}<h5>
                         <p class="card-text"><small class="text-muted">Hinta: {{product.price}} €</small></p>
                         <p class="card-text"><small class="text-muted">Kpl jäljellä: {{product.quantity}}</small></p>
-                        <a class="btn btn-primary disabled" href="#">Näytä</a>
+                        <a class="btn btn-primary" href="{{url_for('product_details', id = product.id)}}">Näytä</a>
                     </div>
                     <div class="card-footer">
                         <small class="text-muted">Julkaistu: {{product.created_at.strftime('%d/%m/%Y')}}</small>
