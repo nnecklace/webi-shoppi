@@ -1,14 +1,14 @@
 from src.db import db
 from src.models import Base, Product, CategoryProduct
 from sqlalchemy import text, exc
-from src.constants import get_max_integer
+from src.constants import get_max_integer, env_sqlite
 from src.encryption import encrypt, check_pwd
 import sys
 
 class User(Base):
     __tablename__ = "users"
 
-    id = db.Column(Base.generate_user_id_field(), primary_key=True, unique=True, nullable=False)
+    id = Base.generate_user_id_column()
     first_name = db.Column(db.String(150), nullable=False)
     last_name = db.Column(db.String(150), nullable=False)
     email = db.Column(db.String(150), nullable=False)
