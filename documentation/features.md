@@ -13,7 +13,7 @@ Tarina on tehty kun se on viety masteriin ja toimii Herokussa.
 
 ## Kyselyt
 
-_Kyselyissä on käytetty sqlalchemyn placeholder arvoja_.
+_Kyselyissä on käytetty sqlalchemyn placeholder-arvoja_.
 
 ### Kirjautuminen Ja Rekisteröiminen
 - Käyttäjänä pystyn kirjautumaan sisään, jotta voin myydää tuotteita [DONE]
