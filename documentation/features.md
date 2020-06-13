@@ -115,8 +115,7 @@ LEFT JOIN categories
 ON categories.id = categories_products.category_id 
 INNER JOIN users 
 ON users.id = products.user_id 
-WHERE products.quantity > 0
-AND products.price = (SELECT MIN(products.price) FROM products) 
+WHERE products.price = (SELECT MIN(products.price) FROM products) 
 GROUP BY products.id, users.username 
 ORDER BY products.created_at DESC
 ```
@@ -130,8 +129,7 @@ LEFT JOIN categories
 ON categories.id = categories_products.category_id 
 INNER JOIN users 
 ON users.id = products.user_id 
-WHERE products.quantity > 0 AND
-AND products.price = (SELECT MIN(products.price) FROM products) 
+WHERE products.price = (SELECT MIN(products.price) FROM products) 
 AND categories.id IN (SELECT categories.id FROM categories WHERE categories.id = %(cat_0)s OR categories.id = %(cat_1)s OR categories.id = %(cat_2)s) 
 GROUP BY products.id, users.username 
 ORDER BY products.created_at DESC
