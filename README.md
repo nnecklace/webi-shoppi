@@ -12,6 +12,8 @@ Kuluttajana pystyt ostamaan tuotteita, mikäli tililläsi on rahaa tai luottokor
 
 [CREATE TABLE -lauseet](https://github.com/nnecklace/webi-shoppi/blob/master/documentation/create_table.md)
 
+[Käyttöohjeet](https://github.com/nnecklace/webi-shoppi/blob/master/documentation/manual.md)
+
 ## Projektin asentaminen
 
 Varmista, että sinulla on ainakin python 3.7 asennettuna.
