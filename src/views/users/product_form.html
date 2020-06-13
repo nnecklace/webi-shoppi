@@ -1,7 +1,7 @@
 {% extends "index.html" %}
 
 {% block body %}
-<h2 class="mt-2">Tuote ilmoitus</h2>
+<h2 class="mt-2">Tuoteilmoitus</h2>
 <a href="{{url_for('user_private_profile', username = current_user.username)}}" class="btn btn-link">&laquo; Takaisin</a>
 <div class="row">
     <form class="p-4 col-md-8 card mx-auto mt-3" action="{{url_for('user_product_publish', username = current_user.username)}}" method="POST">
