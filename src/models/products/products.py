@@ -69,13 +69,23 @@ class Product(Base):
         def build_query(key, value = ""):
             nonlocal stmt
             if key == "name":
-                stmt += " AND products.name LIKE :name"
+                stmt += " AND LOWER(products.name) LIKE :name"
             elif key == "price":
                 stmt += " AND products.price <= :price"
-            elif key == "minimum":
-                stmt += " AND products.price = (SELECT MIN(products.price) FROM products)"
+            elif key == "minimum_start":
+                stmt += (" AND products.price = (SELECT MIN(products.price)"
+                         " FROM products"
+                         " INNER JOIN users"
+                         " ON users.id = products.user_id"
+                         " LEFT JOIN categories_products"
+                         " ON categories_products.product_id = products.id"
+                         " LEFT JOIN categories"
+                         " ON categories.id = categories_products.category_id"
+                         " WHERE products.quantity > 0")
+            elif key == "minimum_end":
+                stmt += ")"
             elif key == "seller":
-                stmt += " AND users.username LIKE :seller"
+                stmt += " AND LOWER(users.username) LIKE :seller"
             elif key == "published_start":
                 stmt +=  " AND products.created_at >= :published_start"
             elif key == "published_end":
@@ -90,14 +100,14 @@ class Product(Base):
             if value:
                 params_dict[key] = value
 
-        if name:
-            build_query("name", "%"+name+"%")
-
         if price and not minimum:
             build_query("price", price)
 
         if minimum:
-            build_query("minimum")
+            build_query("minimum_start")
+
+        if name:
+            build_query("name", "%"+name.lower()+"%")
 
         # Could also use SQL BETWEEN clause, but doing it this way makes to code easier to read imo
         if published_start:
@@ -107,7 +117,7 @@ class Product(Base):
             build_query("published_end", published_end.strftime(date_format_end))
 
         if seller:
-            build_query("seller", "%"+seller+"%")
+            build_query("seller", "%"+seller.lower()+"%")
 
         if not -1 in categories and len(categories) > 0:
             # build subquery for getting categories
@@ -119,12 +129,17 @@ class Product(Base):
             subquery += ")"
             stmt += subquery
 
-        build_query("group_by")
+        if not minimum:
+            build_query("group_by")
 
         # if uncategorized was selected
         if -1 in categories:
             build_query("categoryless")
-        
+
+        if minimum:
+            build_query("minimum_end")
+            build_query("group_by")
+
         build_query("order_by")
 
         stmt = text(stmt).bindparams(**params_dict)
