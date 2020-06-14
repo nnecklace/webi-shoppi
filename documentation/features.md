@@ -1,4 +1,4 @@
-# Käyttäjätarinat 
+# Käyttäjätarinat ja Puuttuvat/Tulevat Ominaisuudet
 
 Alla on kuvattu alustavat käyttäjätarinat. Käyttäjätarinoita lisätään enemmän projektin edetessä.
 
@@ -274,3 +274,26 @@ UPDATE users SET modified_at=CURRENT_TIMESTAMP, username=%(username)s, email=%(e
 ```sql
 DELETE FROM users WHERE users.id = %(id)s
 ```
+
+
+## Puuttuvat/Tulevat ominaisuudet
+
+### Ostoskori
+
+Alunperin olin ajatellut toteuttaa ostoskori ominaisuuden, jotta kuluttajat pystyisi lisäämään ja ostamaan useita tuotteita samaan aikaan. Tarkoitus oli, että käyttäjä voisi hallita oman ostoskorinsa, muokata tuotteiden kappalemäärää yms. Ja lopuksi käyttäjä olisi pystynyt varmistaa tilauksen ja antaa tarkempia tilaustietoja, kuten esim. lähiosoite yms.
+
+### Luottokortin/Tilinsiirto validointi
+
+Olin myös miettinyt, että saldoa lisätessä, käyttäjä olisi voinut valita millä tavalla saldoa lisätään. Luottokorttimaksulla, tilinsiirrolla tms. Ajattelin, että olisin voinut lisätä _stripe_ integraation sovellukseen, jotta luottokorttimaksujen ja tilinsiirrtojen toteuttaminen olisi ollut suhteellisen yksinkertaista. Samalla olisin voinut lisätä _osta ilman tiliä_ -ominaisuuden. Tällöin kuluttajan olisi voinut ostaa minkä tahansa tuotteen ilman rekisteröitymistä.
+
+### Tuotekuva ja -kuvaus
+
+Tuotteilta puuttuu tällä hetkellä kuvia ja kuvaus. Kuvat ja kuvaus auttaisi kuluttaja ymmärtämään mitä hän on ostamassa. Ajatuksena on, että kuvat säilytetään AWS-S3:ssa ja tietokannassa kuvauksen tietotyyppi olisi _text_. Itse  tietokannassa  ei olisi mitään tietoo tuotteenkuvista.
+
+### Parempi etusivu
+
+Tällä hetkellä etusivu on tosi kevyt. Etusivulla voisi vaikka näyttää tällä hetkellä suosituimmat tuotteet tms.
+
+### Sisäänkirjautuminen sähköpostilla
+
+Alunperin oli tarkoitus, että käyttäjä olisi voinut kirjautua sisään myös sähköpostiosoitteella. Tämä ominaisuus jäi kuitenkin toteuttamatta.
