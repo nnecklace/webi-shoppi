@@ -30,6 +30,30 @@ class Product(Base):
     @staticmethod
     def find_by_criteria(name, categories, price, minimum, published_start, published_end, seller):
         params_dict = {}
+        date_format_start = "%Y-%m-%d 00:00:00"
+        date_format_end  = "%Y-%m-%d 23:59:59"
+
+        commands = {
+            "quantity"        : " WHERE products.quantity > 0",
+            "name"            : " AND LOWER(products.name) LIKE :name",
+            "price"           : " AND products.price <= :price",
+            "seller"          : " AND LOWER(users.username) LIKE :seller",
+            "published_start"  : " AND products.created_at >= :published_start",
+            "published_end"   : " AND products.created_at <= :published_end",
+            "group_by"        : " GROUP BY products.id, users.username",
+            "categoryless"    : " HAVING COUNT(categories_products.product_id) = 0",
+            "order_by"        : " ORDER BY products.created_at DESC",
+            "categories_join" : (" LEFT JOIN categories_products"
+                                 " ON categories_products.product_id = products.id"
+                                 " LEFT JOIN categories"
+                                 " ON categories.id = categories_products.category_id"),
+            "seller_join"     : " INNER JOIN users ON users.id = products.user_id",
+            "minimum_start"   : " WHERE products.price = (SELECT MIN(products.price) FROM products",
+            "categories_start": " AND categories.id IN (SELECT categories.id FROM categories",
+            "category_where"  : " WHERE categories.id = ",
+            "category_or"     : " OR categories.id = ",
+            "subquery_end"    : ")"
+        }
 
         stmt = ("SELECT products.id,"
                " products.name,"
@@ -38,56 +62,36 @@ class Product(Base):
                " products.quantity,"
                " users.username"
                " FROM products"
-               " LEFT JOIN categories_products"
-               " ON categories_products.product_id = products.id"
-               " LEFT JOIN categories"
-               " ON categories.id = categories_products.category_id"
                " INNER JOIN users"
-               " ON users.id = products.user_id"
-               " WHERE products.quantity > 0")
+               " ON users.id = products.user_id")
 
-        date_format_start = "%Y-%m-%d 00:00:00"
-        date_format_end  = "%Y-%m-%d 23:59:59"
-
-        def build_query(key, value = ""):
+        def build_query(key, value = "", extra = None):
             nonlocal stmt
-            if key == "name":
-                stmt += " AND LOWER(products.name) LIKE :name"
-            elif key == "price":
-                stmt += " AND products.price <= :price"
-            elif key == "minimum_start":
-                stmt += (" AND products.price = (SELECT MIN(products.price)"
-                         " FROM products"
-                         " INNER JOIN users"
-                         " ON users.id = products.user_id"
-                         " LEFT JOIN categories_products"
-                         " ON categories_products.product_id = products.id"
-                         " LEFT JOIN categories"
-                         " ON categories.id = categories_products.category_id"
-                         " WHERE products.quantity > 0")
-            elif key == "minimum_end":
-                stmt += ")"
-            elif key == "seller":
-                stmt += " AND LOWER(users.username) LIKE :seller"
-            elif key == "published_start":
-                stmt +=  " AND products.created_at >= :published_start"
-            elif key == "published_end":
-                stmt +=  " AND products.created_at <= :published_end"
-            elif key == "order_by":
-                stmt += " ORDER BY products.created_at DESC"
-            elif key == "group_by":
-                stmt += " GROUP BY products.id, users.username"
-            elif key == "categoryless":
-                stmt += " HAVING COUNT(categories_products.product_id) = 0"
+            if key in commands:
+                stmt += commands[key]
+                if extra:
+                    stmt += ":"+value
 
             if value:
-                params_dict[key] = value
+                if extra:
+                    params_dict[value] = extra
+                else:
+                    params_dict[key] = value
 
-        if price and not minimum:
-            build_query("price", price)
+        if len(categories) > 0 and not minimum:
+            build_query("categories_join")
 
         if minimum:
             build_query("minimum_start")
+            if seller:
+                build_query("seller_join")
+            if len(categories) > 0:
+                build_query("categories_join")
+
+        build_query("quantity")
+
+        if price and not minimum:
+            build_query("price", price)
 
         if name:
             build_query("name", "%"+name.lower()+"%")
@@ -104,25 +108,19 @@ class Product(Base):
 
         if not -1 in categories and len(categories) > 0:
             # build subquery for getting categories
-            subquery = " AND categories.id IN (SELECT categories.id FROM categories WHERE categories.id = :cat_0"
-            build_query("cat_0", categories[0])
+            build_query("categories_start")
+            build_query("category_where", "cat_0", categories[0])
             for indx in range(1, len(categories)):
-                subquery += " OR categories.id = :cat_"+str(indx)
-                build_query("cat_"+str(indx), categories[indx])
-            subquery += ")"
-            stmt += subquery
-
-        if not minimum: 
-            build_query("group_by")
+                build_query("category_or", "cat_"+str(indx), categories[indx])
+            build_query("subquery_end")
 
         # if uncategorized was selected
         if -1 in categories:
-            if minimum:
-                build_query("group_by")
+            build_query("group_by")
             build_query("categoryless")
 
         if minimum:
-            build_query("minimum_end")
+            build_query("subquery_end")
 
         build_query("order_by")
 
