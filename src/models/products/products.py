@@ -129,11 +129,13 @@ class Product(Base):
             subquery += ")"
             stmt += subquery
 
-        if not minimum:
+        if not minimum: 
             build_query("group_by")
 
         # if uncategorized was selected
         if -1 in categories:
+            if minimum:
+                build_query("group_by")
             build_query("categoryless")
 
         if minimum:
