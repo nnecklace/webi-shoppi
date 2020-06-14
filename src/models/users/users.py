@@ -37,22 +37,6 @@ class User(Base):
     def is_authenticated(self):
         return True
 
-    def _commit(self, err_log = "", succ_log = ""):
-        try:
-            db.session().commit()
-        except exc.SQLAlchemyError as err:
-            print("[ERROR] " + err_log + " " + str(err), sys.stderr)
-            return False
-
-        if succ_log:
-            print("[SUCCESS] " + succ_log)
-
-        return True
-
-    def save(self):
-        db.session().add(self)
-        return self._commit("user create:")
-
     def update(self, user_form):
         self.username = user_form.username.data
         self.email = user_form.email.data
@@ -63,10 +47,6 @@ class User(Base):
     def update_password(self, password):
         self.password = encrypt(password)
         return self._commit("user password:")
-
-    def try_delete(self):
-        db.session().delete(self)
-        return self._commit()
 
     def set_balance(self, balance):
         new_balance = self.balance + balance

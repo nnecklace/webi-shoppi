@@ -24,7 +24,7 @@ class AuthenticationController:
             form.password.data
         )
 
-        if not user.save():
+        if not user.save("user create:"):
             flash("Käyttäjätilin luominen epäonnistui", "error")
             return redirect(request.referrer)
 

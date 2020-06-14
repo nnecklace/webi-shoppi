@@ -46,7 +46,7 @@ class UserController:
     @staticmethod
     def delete(id):
         user = User.query.filter_by(id = id).first()
-        if user == None or not user.try_delete():
+        if user == None or not user.delete("user delete"):
             flash("Käyttäjätilin poistamaminen epäonnistui", "error")
             return render("users/main.html", user = user, user_form = UserForm(), change_password_form = ChangePasswordForm())
 

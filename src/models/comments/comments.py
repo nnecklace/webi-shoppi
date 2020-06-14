@@ -1,7 +1,5 @@
 from src.db import db
 from src.models import Base
-from sqlalchemy import exc
-import sys
 
 class Comment(Base):
     __tablename__ = "comments"
@@ -17,16 +15,3 @@ class Comment(Base):
         self.content = content
         self.product_id = product_id
         self.user_id = user_id
-
-    def _commit(self, err_log):
-        try:
-            db.session().commit()
-        except exc.SQLAlchemyError as err:
-            print("[ERROR] " + err_log + " " + str(err), sys.stderr)
-            return False
-
-        return True
-
-    def save(self):
-        db.session().add(self)
-        return self._commit("comments create:")

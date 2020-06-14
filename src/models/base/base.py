@@ -1,7 +1,8 @@
 from src.db import db
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy import text
+from sqlalchemy import text, exc
 from src.constants import env_sqlite
+import sys
 
 class Base(db.Model):
     __abstract__ = True
@@ -23,3 +24,20 @@ class Base(db.Model):
             return UUID(as_uuid=True)
         else:
             return db.Integer
+
+    def _commit(self, err_log):
+        try:
+            db.session().commit()
+        except exc.SQLAlchemyError as err:
+            print("[ERROR] " + err_log + " " + str(err), sys.stderr)
+            return False
+
+        return True
+
+    def save(self, msg):
+        db.session().add(self)
+        return self._commit(msg)
+
+    def delete(self, msg):
+        db.session().delete(self)
+        return self._commit(msg)

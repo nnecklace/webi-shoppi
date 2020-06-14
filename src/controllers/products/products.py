@@ -48,7 +48,7 @@ class ProductController:
             current_user.id
         )
 
-        if not product.save():
+        if not product.save("product create:"):
             flash("Tuotteen julkaisu epäonnistui", "error")
             return render("users/product_form.html",
                           product_form = product_form,
@@ -106,7 +106,7 @@ class ProductController:
     def delete(username, id):
         product = Product.query.get(id)
 
-        if not product.delete():
+        if not product.delete("product " + str(product.id) + " delete :"):
             flash("Ilmoituksen poisto epäonnistui", "error")
             return redirect(url_for("product_list"))
 
