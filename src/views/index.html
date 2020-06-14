@@ -123,6 +123,23 @@
         }
 
 
+        $("#categories-10").on("change", function(event) {
+          const checkboxes = document.getElementsByClassName("custom-control-input");
+          let disabled = true;
+
+          if (!this.checked) {
+            disabled = false;
+          }
+
+          for (let i = 0; i < checkboxes.length; i++) {
+            let curr = checkboxes[i];
+            if (curr.type === "checkbox" && curr.value !== "-1" && curr.id !== "minimum") {
+              curr.disabled = disabled;
+              curr.checked = false;
+            }
+          }
+        });
+
         $("#deleteAccount").one("submit", function(event) {
           event.preventDefault();
           const yes = confirm("Haluatko varmasti poistaa tilisi?");
