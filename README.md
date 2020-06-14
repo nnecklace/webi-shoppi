@@ -64,3 +64,44 @@ Käyttäjätunnus: `Test1`
 Salasana: `password@1`
 
 Voit luoda myös oman testikäyttäjän menemällä polkuun `/register` ja täyttämällä käyttäjätunnuslomakkeen. Salasana täytyy olla minimissään 8 merkkiä pitkä ja sen täytyy sisältää ainakin yhden numeron ja ainakin yksi seuraavista erikoismerkeistä: ` _, /, @, |, -, +`
+
+## Heroku
+
+Varmista, että sinulla on heroku-cli työkalu asennettuna.
+
+Mikäli projektin juuressa ei ole `Procfile` -tiedostoa, niin voit luoda tiedoston seuraavalla komennolla.
+
+```touch Procfile && echo "web: gunicorn --preload --workers 1 run:app" > Procfile```
+
+Seuraavaksi voit luoda projektille heroku-projektin, projektia luodaan seuraavalla komennolla.
+
+```heroku create <nimi> --buildpack heroku/python```
+
+Asenna projektille tietokannan. Heroku tarjoaa ilmaisen postgres tietokannan. Voit asentaa tietokannan projektille seuraavalla komennolla.
+
+```heroku addons:create heroku-postgresql:hobby-dev```
+
+Projektissa käytetään `uuid v4` kirjastoa. Kirjaston tarkoitus on generoida ainutlaatuisia id arvoja käyttäjille. Kirjastoa täytyy asentaa erikseen.
+
+Ota ensin yhteys tietokantaan.
+
+```heroku pg:psql --app <nimi>```
+
+Kun olet ottanut yhteyttä tietokantaan voit ajaa seuraavaa komentoa.
+
+```CREATE EXTENSION IF NOT EXISTS "uuid-ossp";```
+
+Nyt `uuid v4` kirjasto on asennettu.
+
+Voit nyt siirtää sovelluksen herokuun komennolla.
+
+```git push heroku master```
+
+Kun sovellus on siirretty herokuun tietokantaan pitäisi vielä lisätä oletus kategorioita.
+
+```heroku pg:psql --app <nimi>```
+```insert into categories (name) values ('Koti'), ('Elektroniikka'), ('Elintarvike'), ('Kirja'), ('Auto'), ('Peli'), ('Urheilu'), ('Hyvinvointi'), ('Hygieni'), ('Viihde');```
+
+Nyt voit kokeila sovellusta seilamessa. Seuraava komento avaa sovelluksen selaimessa.
+
+```heroku open```
