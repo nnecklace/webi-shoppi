@@ -1,9 +1,7 @@
 from src.db import db
 from src.models import Base, Product, CategoryProduct
-from sqlalchemy import text, exc
 from src.constants import get_max_integer, env_sqlite
 from src.encryption import encrypt, check_pwd
-import sys
 
 class User(Base):
     __tablename__ = "users"

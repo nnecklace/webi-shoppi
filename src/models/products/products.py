@@ -1,8 +1,7 @@
 from src.db import db
 from src.models import Base
-from sqlalchemy import exc, text
+from sqlalchemy import text
 from datetime import datetime
-import sys
 
 class Product(Base):
     __tablename__ = "products"
