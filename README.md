@@ -105,3 +105,8 @@ Kun sovellus on siirretty herokuun tietokantaan pitäisi vielä lisätä oletus 
 Nyt voit kokeila sovellusta seilamessa. Seuraava komento avaa sovelluksen selaimessa.
 
 ```heroku open```
+
+
+## Bugeja
+
+Sovelluksessa on muutamia bugeja. Suurin osa bugeista johtuvat SQLitestä. SQLite ei tue `passive_deletes` eikä `DELETE ON CASCADE`. Tämä tarkoittaa sitä, että tuotteen poistaminen ei poista tuotteen kommentit. Samoin, jos käyttäjä poistaa tilinsä niin käyttäjän tuoteilmoitukset jäävät tietokantaan.
