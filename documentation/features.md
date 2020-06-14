@@ -42,10 +42,11 @@ if check_pwd(user.password, password):
 - Kuluttajana voin etsiä tuotteita tuotekategorian (tai kategorioiden) perusteella, jotta pystyn "suodattaa" pois tuotteita, joita en halua tuotevalikoimaan [DONE]
 - Kuluttajana voin etsiä tuotteita ilman kategoriaa [DONE]
 - Kuluttajana voin etsiä tuotteita tietyn aikavälin perusteella [DONE]
-- Kuluttajana voin etsiä tietyn kaupan halvin tuote [DONE]
+- Kuluttajana voin etsiä kaupan halvin tuote [DONE]
 - Kuluttajana voin etsiä useiden kategorioiden halvin tuote [DONE]
 - Kuluttajana voin etsiä tuotteita, joiden hinta on enintään _x_ [DONE]
 - Kuluttajana voin etsiä tuotteita myyjän nimen perusteella [DONE]
+- Kuluttajana voin etsiä halvin tuote, jolla ei ole kategoriaa [DONE]
 
 ```sql
 SELECT products.id, products.name, products.created_at, products.price, products.quantity, users.username 
@@ -129,11 +130,24 @@ LEFT JOIN categories
 ON categories.id = categories_products.category_id 
 INNER JOIN users 
 ON users.id = products.user_id 
-WHERE products.price = (SELECT MIN(products.price) FROM products) 
-AND categories.id IN (SELECT categories.id FROM categories WHERE categories.id = %(cat_0)s OR categories.id = %(cat_1)s OR categories.id = %(cat_2)s) 
-GROUP BY products.id, users.username 
+WHERE products.price = (
+    SELECT MIN(products.price) FROM products
+    LEFT JOIN categories_products
+    ON categories.id = categories_products.category_id 
+    INNER JOIN users 
+    ON users.id = products.user_id 
+    WHERE products.quantity > 0 
+    AND categories.id IN (
+        SELECT categories.id 
+        FROM categories 
+        WHERE categories.id = %(cat_0)s 
+        OR categories.id = %(cat_1)s 
+        OR categories.id = %(cat_2)s
+    )
+)
 ORDER BY products.created_at DESC
 ```
+Price alikyselyssä olevat joinit ovat turhia
 
 ```sql
 SELECT products.id, products.name, products.created_at, products.price, products.quantity, users.username 
@@ -162,6 +176,28 @@ ON users.id = products.user_id
 WHERE products.quantity > 0 
 AND users.username LIKE %(seller)s 
 GROUP BY products.id, users.username 
+ORDER BY products.created_at DESC
+```
+
+```sql
+SELECT products.id, products.name, products.created_at, products.price, products.quantity, users.username 
+FROM products 
+LEFT JOIN categories_products 
+ON categories_products.product_id = products.id 
+LEFT JOIN categories 
+ON categories.id = categories_products.category_id 
+INNER JOIN users 
+ON users.id = products.user_id 
+WHERE products.price = (
+    SELECT MIN(products.price) FROM products
+    LEFT JOIN categories_products
+    ON categories.id = categories_products.category_id 
+    INNER JOIN users 
+    ON users.id = products.user_id 
+    WHERE products.quantity > 0 
+    GROUP BY products.id, users.username 
+    HAVING COUNT(categories_products.product_id) = 0 
+)
 ORDER BY products.created_at DESC
 ```
 

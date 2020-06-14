@@ -123,7 +123,6 @@ class Product(Base):
 
         if minimum:
             build_query("minimum_end")
-            build_query("group_by")
 
         build_query("order_by")
 
