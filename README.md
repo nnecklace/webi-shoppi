@@ -109,4 +109,4 @@ Nyt voit kokeila sovellusta seilamessa. Seuraava komento avaa sovelluksen selaim
 
 ## Bugeja
 
-Sovelluksessa on muutamia bugeja. Suurin osa bugeista johtuvat SQLitestä. SQLite ei tue `passive_deletes` eikä `DELETE ON CASCADE`. Tämä tarkoittaa sitä, että tuotteen poistaminen ei poista tuotteen kommentit. Samoin, jos käyttäjä poistaa tilinsä niin käyttäjän tuoteilmoitukset jäävät tietokantaan.
+Sovelluksessa on muutamia bugeja. Suurin osa bugeista johtuvat SQLitestä. SQLite ei tue `passive_deletes` eikä `DELETE ON CASCADE` välttämättä toimi ilman että `PRAGMA foreign_keys = ON` on enabloitu. Tämä tarkoittaa sitä, että tuotteen poistaminen ei välttämättä poista tuotteen kommentit. Samoin, jos käyttäjä poistaa tilinsä niin käyttäjän tuoteilmoitukset voi mahdollisest jäädä tietokantaan.
