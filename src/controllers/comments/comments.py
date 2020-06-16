@@ -14,7 +14,7 @@ class CommentController:
 
         comment = Comment(comment_form.comment.data, product_id, current_user.id)
 
-        if not comment.save():
+        if not comment.save("comment save"):
             flash("Kommentin lähettäminen epäonnistui", "error")
             return render("products/details.html", comment_open = True, comment_form = comment_form, product = Product.query.get(product_id))
 
