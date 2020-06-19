@@ -16,6 +16,10 @@ class AuthenticationController:
         if not form.validate():
             return render("authentication/register.html", form = form)
 
+        if User.query.filter_by(username = form.username.data).first():
+            flash("Käyttäjätunnus on jo rekisteröity", "error")
+            return redirect(request.referrer)
+
         user = User(
             form.username.data,
             form.email.data,
