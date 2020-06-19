@@ -124,18 +124,14 @@ ORDER BY products.created_at DESC
 ```sql
 SELECT products.id, products.name, products.created_at, products.price, products.quantity, users.username 
 FROM products 
-LEFT JOIN categories_products 
-ON categories_products.product_id = products.id 
-LEFT JOIN categories 
-ON categories.id = categories_products.category_id 
 INNER JOIN users 
 ON users.id = products.user_id 
 WHERE products.price = (
     SELECT MIN(products.price) FROM products
-    LEFT JOIN categories_products
-    ON categories.id = categories_products.category_id 
-    INNER JOIN users 
-    ON users.id = products.user_id 
+    LEFT JOIN categories_products 
+    ON categories_products.product_id = products.id
+    LEFT JOIN categories 
+    ON categories.id = categories_products.category_id
     WHERE products.quantity > 0 
     AND categories.id IN (
         SELECT categories.id 
@@ -182,18 +178,14 @@ ORDER BY products.created_at DESC
 ```sql
 SELECT products.id, products.name, products.created_at, products.price, products.quantity, users.username 
 FROM products 
-LEFT JOIN categories_products 
-ON categories_products.product_id = products.id 
-LEFT JOIN categories 
-ON categories.id = categories_products.category_id 
 INNER JOIN users 
 ON users.id = products.user_id 
 WHERE products.price = (
     SELECT MIN(products.price) FROM products
-    LEFT JOIN categories_products
-    ON categories.id = categories_products.category_id 
-    INNER JOIN users 
-    ON users.id = products.user_id 
+    LEFT JOIN categories_products 
+    ON categories_products.product_id = products.id
+    LEFT JOIN categories 
+    ON categories.id = categories_products.category_id
     WHERE products.quantity > 0 
     GROUP BY products.id, users.username 
     HAVING COUNT(categories_products.product_id) = 0 
