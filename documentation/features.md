@@ -325,3 +325,16 @@ Tällä hetkellä etusivu on tosi kevyt. Etusivulla voisi vaikka näyttää täl
 ### Sisäänkirjautuminen sähköpostilla
 
 Alunperin oli tarkoitus, että käyttäjä olisi voinut kirjautua sisään myös sähköpostiosoitteella. Tämä ominaisuus jäi kuitenkin toteuttamatta.
+
+### Sivutus (engl pagination)
+
+Tällä hetkellä jos tuotteita on useita, esim 10000, niin kaikki tuotteet näytetään yhdellä sivulla. Ts. sivusta tulee tosi pitkä ja epämukava käyttää. Parempi ratkaisu on lisätä sivunumerointi (eng. pagination). Näin voidaan rajoittaa tuotteiden määrä per sivu, esim 20/sivu. Voidaan myös muokata koodia ja sql-kyselyt. Sql-kyselyihin lisätään `LIMIT 20` ja http get parametreihin lisätään `page` argumentti jonka avulla voidaan määritellä sql-kyselyn mahdollinen _offset_ -arvo. 
+
+Jos sivu = 2, niin sql-kysely = 
+
+```sql
+SELECT * 
+FROM some_table
+OFFSET 20
+LIMIT 20
+```
