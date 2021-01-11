@@ -18,7 +18,7 @@ Kuluttajana pystyt ostamaan tuotteita, mikäli tililläsi on rahaa tai luottokor
 
 Varmista, että sinulla on ainakin python 3.7 asennettuna.
 
-Luo virtuaaliympäristö
+Luo virtuaaliympäristön
 
 ```python3 -m venv venv```
 
